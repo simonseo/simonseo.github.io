@@ -37,9 +37,13 @@ markdown: kramdown
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+gems:
+  - jekyll-numbered-headings
 
 plugins:
   - jekyll-paginate
+  - jekyll-toc
+  
 
 paginate: 3
 paginate_path: "/page/:num/"
@@ -53,4 +57,11 @@ collections:
 
 # for regular posts
 permalink: /:title/
-    
+
+# TOC Settings
+toc:
+  min_level: 2
+  max_level: 6
+  list_class: toc
+  list_class: toc__list
+  sublist_class: toc__sublist

@@ -9,4 +9,7 @@ gem "jekyll-paginate"
 
 group :jekyll_plugins do
     gem 'jekyll-postfiles'
+    # table of content
+    gem 'jekyll-toc'
+    gem 'jekyll-numbered-headings'
 end
