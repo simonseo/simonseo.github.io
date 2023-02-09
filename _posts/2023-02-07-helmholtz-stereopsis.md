@@ -4,7 +4,7 @@ layout: post
 author: "Simon Seo"
 categories: opinion
 date: 2023-02-07
-toc: True
+toc: False
 ---
 
 Let's talk about Zickler et al.'s paper "Helmholtz Stereopsis: Exploiting Reciprocity for Surface Reconstruction". The name 'Helmholtz Stereopsis' comes from the fact that this method exploits Helmholtz reciprocity. It's a physical property of most material that says that swapping the location of lighting and camera will not change the brightness of a point on the material.
