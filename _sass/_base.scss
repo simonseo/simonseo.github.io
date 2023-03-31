@@ -145,6 +145,24 @@ figcaption {
   }
 }
 
+.outward-links {
+  margin: 0 auto;
+  padding: 0 2em;
+  text-align: center;
+
+  @media print {
+    display: none;
+  }
+  & li {
+    display: inline-block;
+  }
+  & li:not(:last-child)::after {
+    content: "|";
+    margin: .5ex;
+    margin-left: 1ex;
+  }
+}
+
 .skip-navigation {
   background: $brand-color;
   border: 1px dashed transparent;

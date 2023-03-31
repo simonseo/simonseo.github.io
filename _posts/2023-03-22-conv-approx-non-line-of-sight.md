@@ -1,5 +1,5 @@
 ---
-title: "Convolutional Approximjations to the General Non-Line-of-Sight Imaging Operator"
+title: "Convolutional Approximations to the General Non-Line-of-Sight Imaging Operator"
 layout: post
 author: "Simon Seo"
 categories: opinion

@@ -13,15 +13,23 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Simon Seo
+title: simon seo
 email: simonseo@cmu.edu
 description: >- # this means to ignore newlines until "baseurl:"
-  coursework by myunggus
+  computational photography
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://simonseo.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-icon: /assets/images/icon-512.png
-twitter_username: 
-github_username:  simonseo
+icon: "/assets/images/icon-512.png"
+
+
+# Outward Links
+include_links: true # this means include cv, github, linkedin, youtube links on the bottom
+cv_url:  /assets/files/simon-seo-cv.pdf
+github_url:  https://github.com/simonseo
+youtube_url:  https://www.youtube.com/@simon-myunggun-seo/videos
+twitter_url: 
+instagram_url:  https://www.instagram.com/simon_stilluglypiglet/
+linkedin_url: https://www.linkedin.com/in/simonseo/
 
 # Build settings
 markdown: kramdown
