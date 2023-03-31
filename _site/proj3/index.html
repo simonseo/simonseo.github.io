@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>image synthesis &mdash; When Cats meet GANs</title>
+
+    <meta name="description" content="coursework by myunggus">  
+
+    <link rel="stylesheet" href="http://localhost:4000/course/16-726-sp23/projects/myunggus/assets/css/main.css?1679543687599293000">
+
+    <link rel="apple-touch-icon" href="/assets/images/icon-512.png"></head>
+  <body>
+
+    <!-- removed skip navigation -->
+    <!-- 
+      <a href="#main" class="skip-navigation">
+        Skip to content
+      </a>
+     -->
+
+    
+  <a href="/course/16-726-sp23/projects/myunggus/" class="back-link">
+  &lang; Home
+</a>
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" id="main" role="article" aria-label="Content">
+
+  
+    <h1 class="post-title divided p-name" itemprop="name headline">
+      When Cats meet GANs
+    </h1>
+  
+
+  <ul id="toc" class="toc__list">
+<li class="toc-entry toc-h2"><a href="#goal">Goal</a></li>
+<li class="toc-entry toc-h2"><a href="#1-deep-convolutional-gan">1. Deep Convolutional GAN</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h3"><a href="#deep-convolutional-discriminator">Deep Convolutional Discriminator</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h5"><a href="#padding">Padding</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#deep-convolutional-generator-up-convolution">Deep Convolutional Generator Up-convolution</a></li>
+<li class="toc-entry toc-h3"><a href="#preprocess-augmentation-and-differentiable-augmentation">Preprocess Augmentation and Differentiable Augmentation</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h5"><a href="#visual-comparison">Visual Comparison</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#loss-graph-comparison">Loss graph comparison</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h5"><a href="#generator-loss">Generator Loss</a></li>
+<li class="toc-entry toc-h5"><a href="#discriminator-loss">Discriminator Loss</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#improvement-over-time">Improvement over time</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#2-cyclegan">2. CycleGAN</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h3"><a href="#results-grumpy--russian-blue">Results: Grumpy ⇄ Russian Blue</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h5"><a href="#effect-of-cycle-consistency-loss">Effect of cycle consistency loss</a></li>
+<li class="toc-entry toc-h5"><a href="#effect-of-dc-vs-patch-discriminator">Effect of DC vs Patch discriminator</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#results-apple--orange">Results: Apple ⇄ Orange</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h5"><a href="#effect-of-cycle-consistency-loss-1">Effect of cycle consistency loss</a></li>
+<li class="toc-entry toc-h5"><a href="#effect-of-dc-vs-patch-discriminator-1">Effect of DC vs Patch discriminator</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#final-results">Final results</a></li>
+</ul>
+</li>
+</ul>
+  
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>We will talk about Deep Convolutional GANs (DCGAN) and CycleGANs.</p>
+
+<h2 id="goal">Goal</h2>
+
+<ol>
+  <li>Generate cat pictures from a randomly sampled noise vector in the latent/feature space.</li>
+  <li>Translate between images of two different types of cats (grumpy and Russian Blue)</li>
+  <li>Translate between images of apples and images of oranges</li>
+</ol>
+
+<h2 id="1-deep-convolutional-gan">1. Deep Convolutional GAN</h2>
+
+<p>DCGAN is just GAN but with convolutional layers.</p>
+
+<h3 id="deep-convolutional-discriminator">Deep Convolutional Discriminator</h3>
+<p><img src="data/DCGAN discriminator_architecture.png" alt="dcgan discriminator architecture" /></p>
+
+<p>The above image (taken from course website) describes the layers in the discriminator but we need to determine the sizes of the kernel, stride, and padding. We downsample the image by a factor of two using the following formula.</p>
+
+<div>
+$$
+(O \times S)+(K-S) = (I+2P) \\ 
+O = I /2 
+$$
+</div>
+
+<p>Where O is output size, I is input size, K is kernel size, S is stride, and P is padding.</p>
+
+<h5 id="padding">Padding</h5>
+<p>We are given kernel size K=4, stride S=2. When S is equal to the downsampling factor, the actual values of O and I become irrelevant and we get P=1 for all layers except <code class="language-plaintext highlighter-rouge">conv5</code>, where we don’t need padding nor a stride if we use a kernel size K=4.</p>
+
+<h3 id="deep-convolutional-generator-up-convolution">Deep Convolutional Generator Up-convolution</h3>
+
+<p><img src="data/DCGAN%20generator_architecture.png" alt="generator architecture" /></p>
+
+<p>The first layer of the generator is given input of size 1x1 which needs to be quadrupled to 4x4. Through multiple experiments, I found that using a kernel size K=5, stride S=1, padding P=2 after scaling the image to the desired size made the training more stable.</p>
+
+<h3 id="preprocess-augmentation-and-differentiable-augmentation">Preprocess Augmentation and Differentiable Augmentation</h3>
+
+<p>I used all three DiffAug policies <code class="language-plaintext highlighter-rouge">color,translation,cutout</code> and in deluxe data augmentation, I used <code class="language-plaintext highlighter-rouge">RandomCrop</code>, <code class="language-plaintext highlighter-rouge">RandomHorizontalFlip</code>, <code class="language-plaintext highlighter-rouge">RandomRotation</code> transforms on top of the basic data augmentation transforms.</p>
+
+<p>I applied DiffAug to both fake and real images any time the images needed to go through the discriminator. I also called <code class="language-plaintext highlighter-rouge">.detach()</code> method on fake images only when training the discriminator to fix the generator.</p>
+
+<h5 id="visual-comparison">Visual Comparison</h5>
+<p>vanilla gan grumpy cat basic: 
+<img src="data/vanilla/vanilla%20grumpy%20basic%206400.png" alt="vanilla gan grumpy cat basic " /> 
+<strong>vanilla gan grumpy cat basic diffaug:</strong>
+<img src="data/vanilla/vanilla%20grumpy%20basic%20diffaug%206400.png" alt="vanilla gan grumpy cat basic diffaug" /> 
+vanilla gan grumpy cat deluxe: 
+<img src="data/vanilla/vanilla%20grumpy%20deluxe%206400.png" alt="vanilla gan grumpy cat deluxe " /> 
+<strong>vanilla gan grumpy cat deluxe diffaug:</strong>
+<img src="data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%206400.png" alt="vanilla gan grumpy cat deluxe diffaug" /></p>
+
+<p>The effects that I can observe from running 6400 iterations with these different settings are:</p>
+<ul>
+  <li>Data augmentation helps. Applying either <code class="language-plaintext highlighter-rouge">deluxe</code> or <code class="language-plaintext highlighter-rouge">diffaug</code> significantly enhances the image quality.</li>
+  <li><code class="language-plaintext highlighter-rouge">diffaug</code> seems to work better than plain <code class="language-plaintext highlighter-rouge">deluxe</code>. Perhaps because the effect of <code class="language-plaintext highlighter-rouge">diffaug</code> is only applied to the discriminator. With the <code class="language-plaintext highlighter-rouge">deluxe</code> option, the generator must learn to generalize a broader range of data, which may have been difficult with just 6400 iterations.</li>
+  <li>In the case that <code class="language-plaintext highlighter-rouge">diffaug</code> was applied, the deluxe augmentations allow more variance in the output images but the results are not as clean as the basic augmented output. Running for longer may have produced a different outcome.</li>
+</ul>
+
+<h3 id="loss-graph-comparison">Loss graph comparison</h3>
+<p>The generator’s loss for cases where DiffAug is applied is consistently lower than when it is not.
+The loss when using deluxe augmentation is slightly lower but not significantly.
+This trend is exactly the mirror opposite for discriminator losses. 
+This demonstrates that augmentation helps the network learn better.</p>
+
+<h5 id="generator-loss">Generator Loss</h5>
+<p><img src="data/DCGAN%20Generator%20loss.png" alt="Loss graph" /></p>
+<h5 id="discriminator-loss">Discriminator Loss</h5>
+<p><img src="data/DCGAN%20Discriminator%20loss.png" alt="Loss graph" /></p>
+
+<h3 id="improvement-over-time">Improvement over time</h3>
+<p>In the beginning, the generated images have “aliasing” effects. Therea are horizontal and vertical lines that are often noticeable in low quality JPEG- or PCA- compressed images. However, the overall structure already exists and is quite discernible. As we iterate more, the aliasing effect goes away and higher frequency detail is improved.</p>
+
+<p><strong>iteration 200:</strong>
+<img src="data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%200200.png" alt="Alt text" />
+<strong>iteration 3200:</strong>
+<img src="data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%203200.png" alt="Alt text" />
+<strong>iteration 6400:</strong>
+<img src="data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%206400.png" alt="Alt text" /></p>
+
+<h2 id="2-cyclegan">2. CycleGAN</h2>
+<p>The domain of the CycleGAN Generator is different from that of vanilla GAN. Vanilla GAN samples from noise but CycleGAN translates an image to an image. 
+<img src="data/cyclegan_generator_architecture.png" alt="Alt text" /></p>
+
+<p>Again, the above image is taken from course website. The discriminator of CycleGAN is expands on that of vanilla GAN by using Patch Discriminator. This discriminator divides the output image into four patches and decides how realistic each patch is. This method forces detail to be consistent across different areas of the image, instead of, for example, having very realistic features in just one area.</p>
+
+<h3 id="results-grumpy--russian-blue">Results: Grumpy ⇄ Russian Blue</h3>
+<h5 id="effect-of-cycle-consistency-loss">Effect of cycle consistency loss</h5>
+<p>The effect of cycle consistency loss is not very pronounced for <code class="language-plaintext highlighter-rouge">grumpy to russian blue</code>, but the results of <code class="language-plaintext highlighter-rouge">russian blue to grumpy</code> show the effect a little bit. In the images generated without using cycle consistency loss, the russian blue cats are definitely <em>unlike</em> grumpy cats, but not necessarily the best representation of russian blue cats. In the images generated using cycle consistency loss, the russian blue cats are more <em>like</em> russian blue cats.</p>
+
+<p><strong>At iteration 1000 <em>without</em> cycle consistency loss:</strong>
+<img src="data/cyclegan/cat%20naive-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/cat%20naive-001000-Y-X.png" alt="Alt text" />
+<strong>At iteration 1000 <em>with</em> cycle consistency loss:</strong>
+<img src="data/cyclegan/cat%20cycle%20consistency-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/cat%20cycle%20consistency-001000-Y-X.png" alt="Alt text" /></p>
+
+<h5 id="effect-of-dc-vs-patch-discriminator">Effect of DC vs Patch discriminator</h5>
+<p>The most notable difference in the effect of the two discriminators can be seen in the cats’ eyes. In the images generated with a DC discriminator, the overall structure matches the target cat, but detail in the eyes are not very expressive. On the other hand, using patch discriminator enhances local detail like the eyes.</p>
+
+<p><strong>With DC Discriminator:</strong>
+<img src="data/cyclegan/cat%20dc-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/cat%20dc-001000-Y-X.png" alt="Alt text" />
+<strong>With Patch Discriminator:</strong>
+<img src="data/cyclegan/cat%20cycle%20consistency-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/cat%20cycle%20consistency-001000-Y-X.png" alt="Alt text" /></p>
+
+<h3 id="results-apple--orange">Results: Apple ⇄ Orange</h3>
+<h5 id="effect-of-cycle-consistency-loss-1">Effect of cycle consistency loss</h5>
+<p>This one is funny. Without cycle consistency loss, generated oranges are <em>ooooooranggggeeeee</em> but not orange. The generated apples scream <em>apppppllplplllleeee</em> but are not apples. With cycle consistency loss, oranges are more like oranges and apples are more like apples. The reason could be attributed to the fact that it’s hard to generate an apple from an <em>ooooooranggggeeeee</em>, so the network is regularized to not overshoot the optimization and instead just produce an <em>orange</em>.</p>
+
+<p><strong>At iteration 1000 <em>without</em> cycle consistency loss:</strong>
+<img src="data/cyclegan/fruit%20naive-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/fruit%20naive-001000-Y-X.png" alt="Alt text" />
+<strong>At iteration 1000 <em>with</em> cycle consistency loss:</strong>
+<img src="data/cyclegan/fruit%20patch-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/fruit%20patch-001000-Y-X.png" alt="Alt text" /></p>
+
+<h5 id="effect-of-dc-vs-patch-discriminator-1">Effect of DC vs Patch discriminator</h5>
+<p>The difference here is hard to tell. The original images are not preprocessed enough (though the cat images were) for there to be meaningful difference in the local texture.</p>
+
+<p><strong>With DC Discriminator:</strong>
+<img src="data/cyclegan/fruit%20dc-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/fruit%20dc-001000-Y-X.png" alt="Alt text" /></p>
+
+<p><strong>With Patch Discriminator:</strong>
+<img src="data/cyclegan/fruit%20patch-001000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/fruit%20patch-001000-Y-X.png" alt="Alt text" /></p>
+
+<h3 id="final-results">Final results</h3>
+<p>Using cycle consistency loss, patch discriminator, 10,000 iterations</p>
+
+<p><img src="data/cyclegan/cat%20cycle%20consistency-010000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/cat%20cycle%20consistency-010000-Y-X.png" alt="Alt text" /></p>
+
+<p><img src="data/cyclegan/fruit-010000-X-Y.png" alt="Alt text" />
+<img src="data/cyclegan/fruit-010000-Y-X.png" alt="Alt text" /></p>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+<script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- <script type="text/javascript" src="/course/16-726-sp23/projects/myunggus/assets/js/MathJax/MathJax.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script> -->
+
+  </div>
+
+  <div class="post-meta">
+    
+      <div itemprop="author">Simon Seo</div>
+    
+    <time class="post-date dt-published" datetime="2023-03-21T00:00:00-04:00" itemprop="datePublished">March 21, 2023</time>
+  </div>
+
+  
+
+</article>
+
+
+    
+
+    
+
+
+
+    
+      <aside class="site-credits">
+        <p>
+          <small><a href="https://github.com/patdryburgh/hitchens">Hitchens Theme</a> powered by <a href="http://jekyllrb.com">Jekyll</a></small>
+        </p>
+      </aside>
+    
+
+  </body>
+</html>

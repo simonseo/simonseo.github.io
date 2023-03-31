@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>image synthesis &mdash; Colorizing the Prokudin-Gorskii Photo Collection</title>
+
+    <meta name="description" content="coursework by myunggus">  
+
+    <link rel="stylesheet" href="http://localhost:4000/course/16-726-sp23/projects/myunggus/assets/css/main.css?1679543687599293000">
+
+    <link rel="apple-touch-icon" href="/assets/images/icon-512.png"></head>
+  <body>
+
+    <!-- removed skip navigation -->
+    <!-- 
+      <a href="#main" class="skip-navigation">
+        Skip to content
+      </a>
+     -->
+
+    
+  <a href="/course/16-726-sp23/projects/myunggus/" class="back-link">
+  &lang; Home
+</a>
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" id="main" role="article" aria-label="Content">
+
+  
+    <h1 class="post-title divided p-name" itemprop="name headline">
+      Colorizing the Prokudin-Gorskii Photo Collection
+    </h1>
+  
+
+  <ul id="toc" class="toc__list">
+<li class="toc-entry toc-h2"><a href="#background">Background</a></li>
+<li class="toc-entry toc-h2"><a href="#overview">Overview</a></li>
+<li class="toc-entry toc-h2"><a href="#stacking">Stacking</a></li>
+<li class="toc-entry toc-h2"><a href="#problem-alignment">Problem: Alignment</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h3"><a href="#shifting-artifacts">Shifting artifacts</a></li>
+<li class="toc-entry toc-h3"><a href="#search-space">Search space</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#solution">Solution</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h3"><a href="#ssd">SSD</a></li>
+<li class="toc-entry toc-h3"><a href="#ncc">NCC</a></li>
+<li class="toc-entry toc-h3"><a href="#image-pyramid">Image Pyramid</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h4"><a href="#image-pyramid-height">Image Pyramid Height</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#letterbox">Letterbox</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h4"><a href="#manual-cropping">Manual Cropping</a></li>
+<li class="toc-entry toc-h4"><a href="#mirroring-at-the-edge">Mirroring at the edge</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#final-results">Final Results</a>
+<ul class="toc__sublist">
+<li class="toc-entry toc-h4"><a href="#ncc-image-pyramid-depth-of-3-crop-factor-of-06">NCC, Image Pyramid depth of 3, Crop factor of 0.6</a></li>
+<li class="toc-entry toc-h4"><a href="#ncc-image-pyramid-depth-of-8-crop-factor-of-06">NCC, Image Pyramid depth of 8, Crop factor of 0.6</a></li>
+<li class="toc-entry toc-h4"><a href="#ncc-image-pyramid-depth-of-8-crop-factor-of-01">NCC, Image Pyramid depth of 8, Crop factor of 0.1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Happy Valentine’s Day everyone. A little background on this photo collection and an overview of what this post is about (taken from course homepage):</p>
+
+<h2 id="background">Background</h2>
+<p><a href="http://en.wikipedia.org/wiki/Prokudin-Gorskii">Sergei Mikhailovich Prokudin-Gorskii</a> (1863-1944) [Сергей Михайлович Прокудин-Горский, to his Russian friends] was a man well ahead of his time. Convinced, as early as 1907, that color photography was the wave of the future, he won Tzar’s special permission to travel across the vast Russian Empire and take color photographs of everything he saw including the only color portrait of <a href="http://en.wikipedia.org/wiki/Leo_Tolstoy">Leo Tolstoy</a>. And he really photographed everything: people, buildings, landscapes, railroads, bridges… thousands of color pictures! His idea was simple: record three exposures of every scene onto a glass plate using a red, a green and a blue filter. Never mind that there was no way to print color photographs until much later – he envisioned special projectors to be installed in “multimedia” classrooms all across Russia where the children would be able to learn about their vast country. Alas, his plans never materialized: he left Russia in 1918, right after the revolution, never to return again. Luckily, his RGB glass plate negatives, capturing the last years of the Russian Empire, survived and were purchased in 1948 by the Library of Congress. The LoC has recently digitized the negatives and made them available on-line.</p>
+
+<h2 id="overview">Overview</h2>
+<p>The goal of this assignment is to take the digitized Prokudin-Gorskii glass plate images and, using image processing techniques, automatically produce a color image with as few visual artifacts as possible. In order to do this, you will need to extract the three color channel images, place them on top of each other, and align them so that they form a single RGB color image. A cool explanation on how the Library of Congress created the color images on their site is available <a href="http://www.loc.gov/exhibits/empire/making.html">here</a>.</p>
+
+<h2 id="stacking">Stacking</h2>
+<p><img src="data/dumb-three_generations.jpg" alt="simple stacking three generations" width="384" />
+The simplest approach to this problem is splitting the image into three equal parts and layering each part as a separate channel. The “dumb” stacking approach is a single line of code but it already outputs something that looks pretty cool.</p>
+
+<h2 id="problem-alignment">Problem: Alignment</h2>
+
+<h3 id="shifting-artifacts">Shifting artifacts</h3>
+
+<p>We see shifts as patches of strong RGB (bright spots) or strong CMY (dark spots). For example, in <code class="language-plaintext highlighter-rouge">three_generations</code>, hats have shifted patches with strong yellow at the bottom, strong magenta in the middle, and strong cyan at the top. This is due to the hat being a dark region. Since the surrounding is very bright, a dark patch in the blue channel leads to a relatively bright red and green pixel that shows up as a yellow patch.
+<img src="data/dumb_three_generations_hat.png" alt="hat" width="384" /></p>
+
+<p>On the other hand, the belt is brighter and shows strong red, green, blue patches. 
+<img src="data/dumb_three_generations_belt.png" alt="belt" width="384" /></p>
+
+<h3 id="search-space">Search space</h3>
+<p><img src="data/displacement-measurement.png" alt="Measuring displacement in pixels" width="450" />
+The screenshot shows me measuring the vertical displacement between the red and blue channel. From this eyeball measurement, I decided I’ll search over a 160x160 space of possible shifts to align each channel. However, this leads to (10 images) x (2 channel pairs) x (160x160 displacements) = 512,000, which is a little too much. For now, I’ll scale down the images by a factor of four and make it more manageable and only search over 40x40 displacements.</p>
+
+<h2 id="solution">Solution</h2>
+<h3 id="ssd">SSD</h3>
+<p>Using this method, SSD already gives reasonable results. Examples: <code class="language-plaintext highlighter-rouge">Cathedral</code> and <code class="language-plaintext highlighter-rouge">Three Generations</code></p>
+
+<p>Dumb Stacking:
+<img src="data/dumb_cathedral.jpg" alt="Alt text" width="384" />
+<img src="data/dumb-three_generations.jpg" alt="Alt text" width="384" /></p>
+
+<p>SSD:
+<img src="data/ssd_cathedral.jpg" alt="Alt text" width="384" />
+<img src="data/ssd_three_generations.jpg" alt="Alt text" width="384" /></p>
+
+<p>A failure case is with <code class="language-plaintext highlighter-rouge">Harvesters</code> where the iterating pattern of the bushes seem to have matched up well but not in other areas. It would be interesting to see if that area has a very low SSD score.
+<img src="data/ssd-harvesters.jpg" alt="harvesters" width="384" /></p>
+
+<h3 id="ncc">NCC</h3>
+<p>NCC works slightly better than SSD across most images.</p>
+
+<p>Dumb stack:
+<img src="data/dumb_cathedral.jpg" alt="Alt text" width="384" />
+SSD:
+<img src="data/ssd_cathedral.jpg" alt="Alt text" width="384" />
+NCC:
+<img src="data/ncc_cathedral.jpg" alt="Alt text" width="384" /></p>
+
+<h3 id="image-pyramid">Image Pyramid</h3>
+<p>Using image pyramids I was able to search a larger space but faster using coarse-to-fine strategy. Combined with cropping, to search across the same space, it takes only about 10% of the time it requires without the image pyramid.</p>
+
+<h4 id="image-pyramid-height">Image Pyramid Height</h4>
+<p>Depending on the height/depth of the image pyramid, the high resolution features can get blurred out too much and finds a bad starting point. With a bad starting point, the coarse-to-fine strategy can get stuck at a local minimum. Since the image sizes differed, I used a log function to set the minimum image size to be around 16~32 pixels.</p>
+
+<p>An extension of this method could also consider average local variability. We can stop downsampling when a target lower bound on the local variability is reached.</p>
+
+<h3 id="letterbox">Letterbox</h3>
+
+<p>Notice that the edges (“letterbox”) are aligned very well. Because the letterbox is so prominent (ie. high contrast/clarity from surrounding areas), properly aligning the letterbox gives the algorithms a good score.</p>
+
+<h4 id="manual-cropping">Manual Cropping</h4>
+<p>I added a manual crop of 10% from each side and kept the 80% as input to the alignment algorithms, to get rid of the effect of the borders. We can see that horizontal alignment has improved a lot, but vertical alignment seems similar. The effect is demonstrated well in <code class="language-plaintext highlighter-rouge">train</code></p>
+
+<p>Without cropping before input into algorithm:
+<img src="data/train_ncc.jpg" alt="Train NCC" width="384" /> 
+With cropping before input into algorithm:
+<img src="data/train_ncc_manual-crop.jpg" alt="Train NCC Cropped" width="384" /></p>
+
+<p>I kept reducing the crop factor all the way down to 5%, using only the data in the center of the image to align the channels. The result is a huge speed up and for some images like <code class="language-plaintext highlighter-rouge">Emir</code>, this works well because incidentally the center pixels were best for aligning. However, for some images like <code class="language-plaintext highlighter-rouge">Lady</code>, the center pixels lack detail and needed a larger window of at least 15% crop factor to achieve good results.</p>
+
+<h4 id="mirroring-at-the-edge">Mirroring at the edge</h4>
+<p>I’ve used <code class="language-plaintext highlighter-rouge">np.roll</code> to maintain the shape of the channels, but the problem with this is that it wraps the edges around to the other side. Edges on different ends of the image may differ greatly in value. This means that the images might be harshly penalized if the frame needs to wrap around.</p>
+
+<p>To mitigate this possibility, instead of rolling pixels over when shifting the window, I used symmetric padding to ‘extend’ the image rather than wrap it around. (<code class="language-plaintext highlighter-rouge">np.pad</code> has modes <code class="language-plaintext highlighter-rouge">reflect</code> and <code class="language-plaintext highlighter-rouge">symmetric</code>). However, this did not result in better outcomes. It fails miserably in some cases, wrapping around almost halfway. Perhaps the pixels were now too similar to each other that it was hard to find a sensible minimum score.</p>
+
+<h3 id="final-results">Final Results</h3>
+<h4 id="ncc-image-pyramid-depth-of-3-crop-factor-of-06">NCC, Image Pyramid depth of 3, Crop factor of 0.6</h4>
+<p><img src="data/final/cathedral.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">cathedral 			r_shift=[ 12,  3]	g_shift=[ 5,  2]</code></p>
+
+<h4 id="ncc-image-pyramid-depth-of-8-crop-factor-of-06">NCC, Image Pyramid depth of 8, Crop factor of 0.6</h4>
+<p><img src="data/final/harvesters.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">harvesters  		r_shift=[123, 14]	g_shift=[59, 17]</code>
+<img src="data/final/icon.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">icon  				r_shift=[ 89, 23]	g_shift=[40, 17]</code>
+<img src="data/final/lady.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">lady  				r_shift=[109, 11]	g_shift=[49,  8]</code>
+<img src="data/final/self_portrait.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">self_portrait  	r_shift=[176, 37]	g_shift=[78, 29]</code>
+<img src="data/final/three_generations.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">three_generations  r_shift=[110, 12]	g_shift=[50, 14]</code>
+<img src="data/final/train.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">train  			r_shift=[ 87, 32]	g_shift=[42,  6]</code>
+<img src="data/final/turkmen.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">turkmen  			r_shift=[116, 28]	g_shift=[55, 20]</code></p>
+
+<h4 id="ncc-image-pyramid-depth-of-8-crop-factor-of-01">NCC, Image Pyramid depth of 8, Crop factor of 0.1</h4>
+<p><img src="data/final/emir.jpg" alt="label" /> 
+☝ <code class="language-plaintext highlighter-rouge">emir				r_shift=[105, 41]	g_shift=[48, 23]</code>
+<img src="data/final/village.jpg" alt="label" />
+☝ <code class="language-plaintext highlighter-rouge">village			r_shift=[137, 23]	g_shift=[64, 13]</code></p>
+
+  </div>
+
+  <div class="post-meta">
+    
+      <div itemprop="author">Simon Seo</div>
+    
+    <time class="post-date dt-published" datetime="2023-02-15T00:00:00-05:00" itemprop="datePublished">February 15, 2023</time>
+  </div>
+
+  
+
+</article>
+
+
+    
+
+    
+
+
+
+    
+      <aside class="site-credits">
+        <p>
+          <small><a href="https://github.com/patdryburgh/hitchens">Hitchens Theme</a> powered by <a href="http://jekyllrb.com">Jekyll</a></small>
+        </p>
+      </aside>
+    
+
+  </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>image synthesis &mdash; Fourier Slice Photography</title>
+
+    <meta name="description" content="coursework by myunggus">  
+
+    <link rel="stylesheet" href="http://localhost:4000/course/16-726-sp23/projects/myunggus/assets/css/main.css?1679543687599293000">
+
+    <link rel="apple-touch-icon" href="/assets/images/icon-512.png"></head>
+  <body>
+
+    <!-- removed skip navigation -->
+    <!-- 
+      <a href="#main" class="skip-navigation">
+        Skip to content
+      </a>
+     -->
+
+    
+  <a href="/course/16-726-sp23/projects/myunggus/" class="back-link">
+  &lang; Home
+</a>
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" id="main" role="article" aria-label="Content">
+
+  
+    <h1 class="post-title divided p-name" itemprop="name headline">
+      Fourier Slice Photography
+    </h1>
+  
+
+  
+  
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Let’s talk about Ren Ng’s paper “Fourier Slice Photography”.</p>
+
+<h3 id="this-method-is-great">This method is great.</h3>
+<p>This paper combines two ideas. It takes the Fourier Slice Theorem, which is a theorem that states that a projection of a curve can be done in the Fourier domain, and applies it to the 4D light field. In this case, the 2D slice of the 4D light field is a “refocused” image of our choosing. Mindblowing.</p>
+
+<p><img src="/course/16-726-sp23/projects/myunggus/assets/images/Fourier_Slice_Theorem.png" alt="Fourier Slice Theorem" /></p>
+
+<p>The author Ren Ng takes this idea and develops it into two iterations of Lytro’s light field cameras. The company has halted execution in 2018 and I was devastated to find out about it.
+<img src="/course/16-726-sp23/projects/myunggus/assets/images/lytro.jpeg" alt="Lytro camera" /></p>
+
+<h3 id="some-problems">Some problems</h3>
+<p>Let’s hear that again. Ren Ng took this idea and developed it into a product. A hardware product. While there were probably other innovations that came along with the Lytro light field cameras, it seems that the lenticular array was a big part of it. That means that this idea can’t be easily applied to existing cameras. It requires a dedicated camera hardware and an assumably a complex manufacturing process. From the point of view of consumers, however, this results in a lower lateral resolution and a huge price tag, all for one function.</p>
+
+<h3 id="questions-and-exploration">Questions and Exploration</h3>
+
+<ul>
+  <li>Is there a limit to the distance that re-focusing can work? I wonder what could go wrong if there is an occluding object right in front of the lens.</li>
+  <li>Is this method also faster for computer generated objects? Is it faster to completely re-render using information of the 3D objects, or would it be faster to save the 4D light field and refocus from that?</li>
+  <li>can we apply this on a moving scene? (either in real life or in a generated environment) It seems probable. This would be very useful in film production since I have experienced multiple close up shots thrown away or be used with unsatisfactory results.</li>
+  <li>If we were to apply it to a moving image, can we still do it while previewing the effect of changing focus in real time? This also seems doable. Although it would definitely take more processing time than getting images from the camera sensor directly.</li>
+</ul>
+
+  </div>
+
+  <div class="post-meta">
+    
+      <div itemprop="author">Simon Seo</div>
+    
+    <time class="post-date dt-published" datetime="2023-02-27T00:00:00-05:00" itemprop="datePublished">February 27, 2023</time>
+  </div>
+
+  
+
+</article>
+
+
+    
+
+    
+
+
+
+    
+      <aside class="site-credits">
+        <p>
+          <small><a href="https://github.com/patdryburgh/hitchens">Hitchens Theme</a> powered by <a href="http://jekyllrb.com">Jekyll</a></small>
+        </p>
+      </aside>
+    
+
+  </body>
+</html>

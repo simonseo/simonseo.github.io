@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>image synthesis &mdash; Gradient Domain Fusion and Poisson Blending</title>
+
+    <meta name="description" content="coursework by myunggus">  
+
+    <link rel="stylesheet" href="http://localhost:4000/course/16-726-sp23/projects/myunggus/assets/css/main.css?1679543687599293000">
+
+    <link rel="apple-touch-icon" href="/assets/images/icon-512.png"></head>
+  <body>
+
+    <!-- removed skip navigation -->
+    <!-- 
+      <a href="#main" class="skip-navigation">
+        Skip to content
+      </a>
+     -->
+
+    
+  <a href="/course/16-726-sp23/projects/myunggus/" class="back-link">
+  &lang; Home
+</a>
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" id="main" role="article" aria-label="Content">
+
+  
+    <h1 class="post-title divided p-name" itemprop="name headline">
+      Gradient Domain Fusion and Poisson Blending
+    </h1>
+  
+
+  <ul id="toc" class="toc__list">
+<li class="toc-entry toc-h2"><a href="#poisson-blending">Poisson Blending</a></li>
+<li class="toc-entry toc-h2"><a href="#toy-example">Toy example</a></li>
+<li class="toc-entry toc-h2"><a href="#blending-result">Blending Result</a></li>
+<li class="toc-entry toc-h2"><a href="#discussion">Discussion</a></li>
+</ul>
+  
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>All images except for “Toy Example” section are mine.</p>
+
+<p>When we make montage images, instead of simply copy-pasting an image cutout, it would be nice if the cutout can be edited to match the colour of the background. Poisson blending does this step for us.</p>
+
+<h2 id="poisson-blending">Poisson Blending</h2>
+<p>The following \(argmin\) optimization is the essence of Poisson Blending.</p>
+
+<div>
+$$\newcommand{\argmin}{arg min} \boldsymbol{v} = \argmin_{\boldsymbol{v}}\sum_{i \in S, j \in N_i \cap S}((v_i - v_j) - (s_i - s_j))^2 + \sum_{i\in S, j \in N_i \cap \neg S}((v_i - t_j) - (s_i - s_j))^2$$
+</div>
+<p>where</p>
+
+<ul>
+  <li>\(s\text{: source image}\)</li>
+  <li>\(t\text{: target image}\)</li>
+  <li>\(v\text{: combined image, result of blending}\)</li>
+  <li>\(S\text{: area where mask = True}\)</li>
+  <li>\(S^c\text{: area where mask = False}\)</li>
+  <li>\(N_i\text{: the neighbouring points of }i\)</li>
+</ul>
+
+<p>We start with a source image (usually an object in the foreground, smaller patch) and a target image (usually the background image, the entire scene will be used). We first draw a mask to decide which area of the source we want to paste into the target image.</p>
+
+<p>Next we look at the gradients of the three images: source, target, and combined. If we want the area inside the mask to be well blended, then we should try to match the gradient \(v'\) of the new image to the gradient \(s'\) of the source image, assuming we care more about the gradients than the actual pixel values.</p>
+
+<p>Near the border of the mask, however, we want the image to resemble both the source and the target image. Specifically, we want to have the same <strong>shape</strong> as the source image but have the same <strong>colour</strong> as the target image. So we try to match the pixel value \(s\) of the source image to \(t + s'\) which is the pixel value of target image \(t\) but changed by the gradient of source image \(s\).</p>
+
+<h2 id="toy-example">Toy example</h2>
+<p>In this example, we try to reconstruct an image by looking at the gradients of an image and a single pixel. If we can maintain the gradients as well as that single pixel, we should be able to recover the original image.</p>
+
+<p><img src="data/toy.png" alt="Alt text" /></p>
+
+<h2 id="blending-result">Blending Result</h2>
+<p><img src="data/jeju_cliff_medium.jpg" alt="Alt text" width="384" />
+<img src="data/dodubong.jpg" alt="Alt text" width="384" />
+At first, I combined the above two images to get the blended result below.</p>
+
+<p><img src="data/00%20jeju-cliff-lighthouse.png" alt="Alt text" /></p>
+
+<p>But there were two problems here. The first is that the scale of detail in the waves is off. The second is that although I tried to align the horizon in the two images exactly, due to weather conditions the contrast between the sky and sea are different and so the colour of the sky has not blended in very well.</p>
+
+<p><img src="data/00%20dodubong-jeju_cliff.png" alt="Alt text" /></p>
+
+<p>After changin the magnification and cropping out the sky, I got the image above. It is not perfect either – the colour of the rocks blended into the patch. This could have been prevented with a more content-aware crop.</p>
+
+<h2 id="discussion">Discussion</h2>
+<ol>
+  <li>Horse blended into cliff:
+<img src="data/horse+cliff.png" alt="Alt text" /></li>
+  <li>
+    <p>Fireworks blended into skyline:
+<img src="data/00%20fireworks-abudhabi.png" alt="Alt text" />
+The first two blended images here point to the fact that blending works well if the surrounding texture in both the source and target images have similar roughness in texture and a similar colour. If I were to position the patches differently, it would not have worked so seamlessly.
+<br />
+<br /></p>
+  </li>
+  <li>Person blended into waterfall:
+<img src="data/00%20father+rain_rock.png" alt="Alt text" />
+While this image above involving my father is my favourite, it is not the most seamless. That is because the level of focus blur is different for the target and source images. However, making the patch very small helps it to go unnoticed for unassuming eyes. 
+<br />
+<br /></li>
+  <li>Squirrel blended onto helmet:
+<img src="data/squirrel+window_cleaner.png" alt="Alt text" />
+I thought this image of a squirrel would have worked very well – and although the blend itself is quite seamless, the colour of the squirrel is very off. I guess what I thought were two similar colours in the sky and in the background of the squirrel were actually quite different. It seems that to match the two colours, the colour of the squirrel was sacrificed.</li>
+</ol>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+<script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- <script type="text/javascript" src="/course/16-726-sp23/projects/myunggus/assets/js/MathJax/MathJax.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script> -->
+
+  </div>
+
+  <div class="post-meta">
+    
+      <div itemprop="author">Simon Seo</div>
+    
+    <time class="post-date dt-published" datetime="2023-02-18T00:00:00-05:00" itemprop="datePublished">February 18, 2023</time>
+  </div>
+
+  
+
+</article>
+
+
+    
+
+    
+
+
+
+    
+      <aside class="site-credits">
+        <p>
+          <small><a href="https://github.com/patdryburgh/hitchens">Hitchens Theme</a> powered by <a href="http://jekyllrb.com">Jekyll</a></small>
+        </p>
+      </aside>
+    
+
+  </body>
+</html>

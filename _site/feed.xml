@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>image synthesis</title>
+    <description>coursework by myunggus</description>
+    <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/</link>
+    <atom:link href="http://localhost:4000/course/16-726-sp23/projects/myunggus/feed/index.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 22 Mar 2023 23:54:47 -0400</pubDate>
+    <lastBuildDate>Wed, 22 Mar 2023 23:54:47 -0400</lastBuildDate>
+    <generator>Jekyll v4.3.2</generator>
+    
+      
+        <item>
+          
+            <title>Convolutional Approximjations to the General Non-Line-of-Sight Imaging Operator</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;div style=&quot;text-align:center&quot;&gt;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/eMLzToMqleU&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;main-contributions-of-this-work&quot;&gt;Main contributions of this work&lt;/h2&gt;
+&lt;p&gt;This paper achieves computational advancements in non-line-of-sight (NLOS) imaging in two ways: first by changing the solution to an efficient deconvolution algorithm, and secondly by applying iterative methods with priors. It also provides theoretical justification for a technique that researchers have been using only with an intuitive understanding. All of this is possible by approximating the measurement-backprojection pipeline of albedo as a convolution. \(\newcommand{\vect}[1]{\boldsymbol{#1}}\) \(\text{argmin}_{\vect{\rho}} \Vert \vect{i}- \vect{A \rho} \Vert\) would give us the the original albedo \(\vect{\rho}\) but this method is difficult to use due to the sheer size of the measurement matrix \(\vect{A}\) making it take very long to scan and computationally intractable. However, modelling the&lt;/p&gt;
+
+&lt;h2 id=&quot;extensions-of-the-idea&quot;&gt;Extensions of the idea&lt;/h2&gt;
+&lt;p&gt;This theory could be easily applied to highways to model traffic around a vehicle without having direct sight to avoid possible collisions. This technology would also be helpful at an intersection, drivers in smaller cars often cannot see traffic lights or other traffic information if there is a large truck in front. Since the Gram is a convolution operator, can we use it to design optical convolutional filters?&lt;/p&gt;
+
+&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
+
+&lt;script id=&quot;MathJax-script&quot; async=&quot;&quot; src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;
+
+
+          </description>
+          <pubDate>Wed, 22 Mar 2023 00:00:00 -0400</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/conv-approx-non-line-of-sight/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/conv-approx-non-line-of-sight/</guid>
+          
+          
+          <category>opinion</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title>When Cats meet GANs</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;We will talk about Deep Convolutional GANs (DCGAN) and CycleGANs.&lt;/p&gt;
+
+&lt;h2 id=&quot;goal&quot;&gt;Goal&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Generate cat pictures from a randomly sampled noise vector in the latent/feature space.&lt;/li&gt;
+  &lt;li&gt;Translate between images of two different types of cats (grumpy and Russian Blue)&lt;/li&gt;
+  &lt;li&gt;Translate between images of apples and images of oranges&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;1-deep-convolutional-gan&quot;&gt;1. Deep Convolutional GAN&lt;/h2&gt;
+
+&lt;p&gt;DCGAN is just GAN but with convolutional layers.&lt;/p&gt;
+
+&lt;h3 id=&quot;deep-convolutional-discriminator&quot;&gt;Deep Convolutional Discriminator&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;data/DCGAN discriminator_architecture.png&quot; alt=&quot;dcgan discriminator architecture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The above image (taken from course website) describes the layers in the discriminator but we need to determine the sizes of the kernel, stride, and padding. We downsample the image by a factor of two using the following formula.&lt;/p&gt;
+
+&lt;div&gt;
+$$
+(O \times S)+(K-S) = (I+2P) \\ 
+O = I /2 
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Where O is output size, I is input size, K is kernel size, S is stride, and P is padding.&lt;/p&gt;
+
+&lt;h5 id=&quot;padding&quot;&gt;Padding&lt;/h5&gt;
+&lt;p&gt;We are given kernel size K=4, stride S=2. When S is equal to the downsampling factor, the actual values of O and I become irrelevant and we get P=1 for all layers except &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;conv5&lt;/code&gt;, where we don’t need padding nor a stride if we use a kernel size K=4.&lt;/p&gt;
+
+&lt;h3 id=&quot;deep-convolutional-generator-up-convolution&quot;&gt;Deep Convolutional Generator Up-convolution&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;data/DCGAN%20generator_architecture.png&quot; alt=&quot;generator architecture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The first layer of the generator is given input of size 1x1 which needs to be quadrupled to 4x4. Through multiple experiments, I found that using a kernel size K=5, stride S=1, padding P=2 after scaling the image to the desired size made the training more stable.&lt;/p&gt;
+
+&lt;h3 id=&quot;preprocess-augmentation-and-differentiable-augmentation&quot;&gt;Preprocess Augmentation and Differentiable Augmentation&lt;/h3&gt;
+
+&lt;p&gt;I used all three DiffAug policies &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;color,translation,cutout&lt;/code&gt; and in deluxe data augmentation, I used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RandomCrop&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RandomHorizontalFlip&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RandomRotation&lt;/code&gt; transforms on top of the basic data augmentation transforms.&lt;/p&gt;
+
+&lt;p&gt;I applied DiffAug to both fake and real images any time the images needed to go through the discriminator. I also called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.detach()&lt;/code&gt; method on fake images only when training the discriminator to fix the generator.&lt;/p&gt;
+
+&lt;h5 id=&quot;visual-comparison&quot;&gt;Visual Comparison&lt;/h5&gt;
+&lt;p&gt;vanilla gan grumpy cat basic: 
+&lt;img src=&quot;data/vanilla/vanilla%20grumpy%20basic%206400.png&quot; alt=&quot;vanilla gan grumpy cat basic &quot; /&gt; 
+&lt;strong&gt;vanilla gan grumpy cat basic diffaug:&lt;/strong&gt;
+&lt;img src=&quot;data/vanilla/vanilla%20grumpy%20basic%20diffaug%206400.png&quot; alt=&quot;vanilla gan grumpy cat basic diffaug&quot; /&gt; 
+vanilla gan grumpy cat deluxe: 
+&lt;img src=&quot;data/vanilla/vanilla%20grumpy%20deluxe%206400.png&quot; alt=&quot;vanilla gan grumpy cat deluxe &quot; /&gt; 
+&lt;strong&gt;vanilla gan grumpy cat deluxe diffaug:&lt;/strong&gt;
+&lt;img src=&quot;data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%206400.png&quot; alt=&quot;vanilla gan grumpy cat deluxe diffaug&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The effects that I can observe from running 6400 iterations with these different settings are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Data augmentation helps. Applying either &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deluxe&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diffaug&lt;/code&gt; significantly enhances the image quality.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diffaug&lt;/code&gt; seems to work better than plain &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deluxe&lt;/code&gt;. Perhaps because the effect of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diffaug&lt;/code&gt; is only applied to the discriminator. With the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deluxe&lt;/code&gt; option, the generator must learn to generalize a broader range of data, which may have been difficult with just 6400 iterations.&lt;/li&gt;
+  &lt;li&gt;In the case that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diffaug&lt;/code&gt; was applied, the deluxe augmentations allow more variance in the output images but the results are not as clean as the basic augmented output. Running for longer may have produced a different outcome.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;loss-graph-comparison&quot;&gt;Loss graph comparison&lt;/h3&gt;
+&lt;p&gt;The generator’s loss for cases where DiffAug is applied is consistently lower than when it is not.
+The loss when using deluxe augmentation is slightly lower but not significantly.
+This trend is exactly the mirror opposite for discriminator losses. 
+This demonstrates that augmentation helps the network learn better.&lt;/p&gt;
+
+&lt;h5 id=&quot;generator-loss&quot;&gt;Generator Loss&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&quot;data/DCGAN%20Generator%20loss.png&quot; alt=&quot;Loss graph&quot; /&gt;&lt;/p&gt;
+&lt;h5 id=&quot;discriminator-loss&quot;&gt;Discriminator Loss&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&quot;data/DCGAN%20Discriminator%20loss.png&quot; alt=&quot;Loss graph&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;improvement-over-time&quot;&gt;Improvement over time&lt;/h3&gt;
+&lt;p&gt;In the beginning, the generated images have “aliasing” effects. Therea are horizontal and vertical lines that are often noticeable in low quality JPEG- or PCA- compressed images. However, the overall structure already exists and is quite discernible. As we iterate more, the aliasing effect goes away and higher frequency detail is improved.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;iteration 200:&lt;/strong&gt;
+&lt;img src=&quot;data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%200200.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;strong&gt;iteration 3200:&lt;/strong&gt;
+&lt;img src=&quot;data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%203200.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;strong&gt;iteration 6400:&lt;/strong&gt;
+&lt;img src=&quot;data/vanilla/vanilla%20grumpy%20deluxe%20diffaug%206400.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;2-cyclegan&quot;&gt;2. CycleGAN&lt;/h2&gt;
+&lt;p&gt;The domain of the CycleGAN Generator is different from that of vanilla GAN. Vanilla GAN samples from noise but CycleGAN translates an image to an image. 
+&lt;img src=&quot;data/cyclegan_generator_architecture.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Again, the above image is taken from course website. The discriminator of CycleGAN is expands on that of vanilla GAN by using Patch Discriminator. This discriminator divides the output image into four patches and decides how realistic each patch is. This method forces detail to be consistent across different areas of the image, instead of, for example, having very realistic features in just one area.&lt;/p&gt;
+
+&lt;h3 id=&quot;results-grumpy--russian-blue&quot;&gt;Results: Grumpy ⇄ Russian Blue&lt;/h3&gt;
+&lt;h5 id=&quot;effect-of-cycle-consistency-loss&quot;&gt;Effect of cycle consistency loss&lt;/h5&gt;
+&lt;p&gt;The effect of cycle consistency loss is not very pronounced for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grumpy to russian blue&lt;/code&gt;, but the results of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;russian blue to grumpy&lt;/code&gt; show the effect a little bit. In the images generated without using cycle consistency loss, the russian blue cats are definitely &lt;em&gt;unlike&lt;/em&gt; grumpy cats, but not necessarily the best representation of russian blue cats. In the images generated using cycle consistency loss, the russian blue cats are more &lt;em&gt;like&lt;/em&gt; russian blue cats.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;At iteration 1000 &lt;em&gt;without&lt;/em&gt; cycle consistency loss:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/cat%20naive-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/cat%20naive-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;strong&gt;At iteration 1000 &lt;em&gt;with&lt;/em&gt; cycle consistency loss:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/cat%20cycle%20consistency-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/cat%20cycle%20consistency-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;effect-of-dc-vs-patch-discriminator&quot;&gt;Effect of DC vs Patch discriminator&lt;/h5&gt;
+&lt;p&gt;The most notable difference in the effect of the two discriminators can be seen in the cats’ eyes. In the images generated with a DC discriminator, the overall structure matches the target cat, but detail in the eyes are not very expressive. On the other hand, using patch discriminator enhances local detail like the eyes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;With DC Discriminator:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/cat%20dc-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/cat%20dc-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;strong&gt;With Patch Discriminator:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/cat%20cycle%20consistency-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/cat%20cycle%20consistency-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;results-apple--orange&quot;&gt;Results: Apple ⇄ Orange&lt;/h3&gt;
+&lt;h5 id=&quot;effect-of-cycle-consistency-loss-1&quot;&gt;Effect of cycle consistency loss&lt;/h5&gt;
+&lt;p&gt;This one is funny. Without cycle consistency loss, generated oranges are &lt;em&gt;ooooooranggggeeeee&lt;/em&gt; but not orange. The generated apples scream &lt;em&gt;apppppllplplllleeee&lt;/em&gt; but are not apples. With cycle consistency loss, oranges are more like oranges and apples are more like apples. The reason could be attributed to the fact that it’s hard to generate an apple from an &lt;em&gt;ooooooranggggeeeee&lt;/em&gt;, so the network is regularized to not overshoot the optimization and instead just produce an &lt;em&gt;orange&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;At iteration 1000 &lt;em&gt;without&lt;/em&gt; cycle consistency loss:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20naive-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20naive-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;strong&gt;At iteration 1000 &lt;em&gt;with&lt;/em&gt; cycle consistency loss:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20patch-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20patch-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;effect-of-dc-vs-patch-discriminator-1&quot;&gt;Effect of DC vs Patch discriminator&lt;/h5&gt;
+&lt;p&gt;The difference here is hard to tell. The original images are not preprocessed enough (though the cat images were) for there to be meaningful difference in the local texture.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;With DC Discriminator:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20dc-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20dc-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;With Patch Discriminator:&lt;/strong&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20patch-001000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/fruit%20patch-001000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;final-results&quot;&gt;Final results&lt;/h3&gt;
+&lt;p&gt;Using cycle consistency loss, patch discriminator, 10,000 iterations&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;data/cyclegan/cat%20cycle%20consistency-010000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/cat%20cycle%20consistency-010000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;data/cyclegan/fruit-010000-X-Y.png&quot; alt=&quot;Alt text&quot; /&gt;
+&lt;img src=&quot;data/cyclegan/fruit-010000-Y-X.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
+
+&lt;script id=&quot;MathJax-script&quot; async=&quot;&quot; src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- &lt;script type=&quot;text/javascript&quot; src=&quot;/course/16-726-sp23/projects/myunggus/assets/js/MathJax/MathJax.js&quot;&gt;&lt;/script&gt; --&gt;
+&lt;!-- &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js&quot;&gt;&lt;/script&gt; --&gt;
+
+          </description>
+          <pubDate>Tue, 21 Mar 2023 00:00:00 -0400</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/proj3/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/proj3/</guid>
+          
+          
+          <category>assignment</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title> Asynchronous Single-Photon 3D Imaging</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;h2 id=&quot;aka-how-to-deal-with-ambient-light-when-using-spad-as-a-3d-camera&quot;&gt;A.K.A. How to deal with ambient light when using SPAD as a 3D camera&lt;/h2&gt;
+&lt;p&gt;Most use cases of SPAD as a 3D camera comes with an inherent problem: ambient light. The 10m-10km measurement range of SPAD cameras means that most uses will be outdoors where ambient light is difficult to control. This paper tackles that by averaging out the ambient light. In contrast to the time of flight graph of a photon to the actual measurement target, which appears as a single high frequency mode in the time-intensity graph, ambient light is a flat low frequency line that stays constant. Because a single SPAD diode can only detect a single photon every so often, the ambient light has a high chance of hitting the diodes and leads to “pileup”. This paper fixes the issue by differing the timestamp at which a laser pulse transmits and one at which a SPAD sensor starts acquiring photons. This way, the pile of ambient photons appear at different locations in the graph relative to the point of interest, and they can be averaged out.&lt;/p&gt;
+
+&lt;h2 id=&quot;problem-inconsistent-ambient-light&quot;&gt;Problem: inconsistent ambient light&lt;/h2&gt;
+&lt;p&gt;While the authors’ model of computational synchronization is simple and elegant, it relies on the assumption that ambient light stays constant. This can be a problem if the camera, object, or light source is moving around, or there are other light sources other than a constant ambient light. Perhaps SPAD works at a high enough frequency to work under these conditions too. Combining SPAD based 3D cameras with Epiolar ToF methods may be able to mitigate ambient light better.&lt;/p&gt;
+
+          </description>
+          <pubDate>Mon, 20 Mar 2023 00:00:00 -0400</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/spad/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/spad/</guid>
+          
+          
+          <category>opinion</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title>Epipolar Time-of-Flight Imaging</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;&lt;img src=&quot;epipolar-setup.jpg&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s talk about Achar et al.’s paper “Epipolar Time-of-Flight Imaging”. This relates to my MSCV capstone project “Neural Synthetic Wavelength Interferometry” in that this method and our method both use continuous-wave Time-of-Flight (CW-ToF) sensors. This paper notes CW-ToF sensor’s shortcomings and tries to improve it. In my capstone project, we improve on it by applying neural networks to some parts of the pipeline.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-this-paper-does-well&quot;&gt;What this paper does well&lt;/h3&gt;
+
+&lt;p&gt;The strength of this paper is not only its wide applicability, but a thorough consideration for the applications, including eye safety, power consumption, interference &amp;amp; interreflections, and different use cases.
+The author provide a well explained and useful comparison between epipolar planes’ sampling orders for each scenario. For example, figure 3(e) depicts a scheme that is robust against camera shake (and thus reducing blur in depth map) and samples at twice the speed to fix rolling shutter effect (but sacrificing vertical resolution). Figure 3(f) depicts a scheme assumes a scenario where the sensor is mounted to a car and allows sampling less from the horizon where objects move slowly on the sensor as opposed to near the ground (near the sensor) where things move faster in the projected image.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;sampling-schemes.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;questions-and-exploration&quot;&gt;Questions and Exploration&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Can we use a compliant mechanism to move the scanning mirror, to achieve better longevity?&lt;/li&gt;
+  &lt;li&gt;Where is the remaining noise coming from?&lt;/li&gt;
+  &lt;li&gt;Why are LIDAR sensors expensive, and does this prototype mitigate the high cost?&lt;/li&gt;
+  &lt;li&gt;Can we say that epipolar ToF imaging is a generalized version of the usual CW-ToF that uses a &lt;em&gt;0D&lt;/em&gt; laser light source, whereas the epipolar ToF sensor uses &lt;em&gt;1D&lt;/em&gt; lasers? Or is it just LIDAR that uses 0D light sources&lt;/li&gt;
+  &lt;li&gt;Is a horizontally sweeping snesor (that uses a vertical epipolar plane) better at mitigating rolling shutter effect on a moving vehicle?&lt;/li&gt;
+  &lt;li&gt;Why do the authors use two exposures/readouts per row in figure 5?
+&lt;img src=&quot;timing-diagram.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+          </description>
+          <pubDate>Wed, 01 Mar 2023 00:00:00 -0500</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/epipolar-tof-imaging/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/epipolar-tof-imaging/</guid>
+          
+          
+          <category>opinion</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title>Fourier Slice Photography</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;Let’s talk about Ren Ng’s paper “Fourier Slice Photography”.&lt;/p&gt;
+
+&lt;h3 id=&quot;this-method-is-great&quot;&gt;This method is great.&lt;/h3&gt;
+&lt;p&gt;This paper combines two ideas. It takes the Fourier Slice Theorem, which is a theorem that states that a projection of a curve can be done in the Fourier domain, and applies it to the 4D light field. In this case, the 2D slice of the 4D light field is a “refocused” image of our choosing. Mindblowing.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/course/16-726-sp23/projects/myunggus/assets/images/Fourier_Slice_Theorem.png&quot; alt=&quot;Fourier Slice Theorem&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The author Ren Ng takes this idea and develops it into two iterations of Lytro’s light field cameras. The company has halted execution in 2018 and I was devastated to find out about it.
+&lt;img src=&quot;/course/16-726-sp23/projects/myunggus/assets/images/lytro.jpeg&quot; alt=&quot;Lytro camera&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;some-problems&quot;&gt;Some problems&lt;/h3&gt;
+&lt;p&gt;Let’s hear that again. Ren Ng took this idea and developed it into a product. A hardware product. While there were probably other innovations that came along with the Lytro light field cameras, it seems that the lenticular array was a big part of it. That means that this idea can’t be easily applied to existing cameras. It requires a dedicated camera hardware and an assumably a complex manufacturing process. From the point of view of consumers, however, this results in a lower lateral resolution and a huge price tag, all for one function.&lt;/p&gt;
+
+&lt;h3 id=&quot;questions-and-exploration&quot;&gt;Questions and Exploration&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Is there a limit to the distance that re-focusing can work? I wonder what could go wrong if there is an occluding object right in front of the lens.&lt;/li&gt;
+  &lt;li&gt;Is this method also faster for computer generated objects? Is it faster to completely re-render using information of the 3D objects, or would it be faster to save the 4D light field and refocus from that?&lt;/li&gt;
+  &lt;li&gt;can we apply this on a moving scene? (either in real life or in a generated environment) It seems probable. This would be very useful in film production since I have experienced multiple close up shots thrown away or be used with unsatisfactory results.&lt;/li&gt;
+  &lt;li&gt;If we were to apply it to a moving image, can we still do it while previewing the effect of changing focus in real time? This also seems doable. Although it would definitely take more processing time than getting images from the camera sensor directly.&lt;/li&gt;
+&lt;/ul&gt;
+
+          </description>
+          <pubDate>Mon, 27 Feb 2023 00:00:00 -0500</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/light-field-camera/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/light-field-camera/</guid>
+          
+          
+          <category>opinion</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title>Gradient Domain Fusion and Poisson Blending</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;All images except for “Toy Example” section are mine.&lt;/p&gt;
+
+&lt;p&gt;When we make montage images, instead of simply copy-pasting an image cutout, it would be nice if the cutout can be edited to match the colour of the background. Poisson blending does this step for us.&lt;/p&gt;
+
+&lt;h2 id=&quot;poisson-blending&quot;&gt;Poisson Blending&lt;/h2&gt;
+&lt;p&gt;The following \(argmin\) optimization is the essence of Poisson Blending.&lt;/p&gt;
+
+&lt;div&gt;
+$$\newcommand{\argmin}{arg min} \boldsymbol{v} = \argmin_{\boldsymbol{v}}\sum_{i \in S, j \in N_i \cap S}((v_i - v_j) - (s_i - s_j))^2 + \sum_{i\in S, j \in N_i \cap \neg S}((v_i - t_j) - (s_i - s_j))^2$$
+&lt;/div&gt;
+&lt;p&gt;where&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;\(s\text{: source image}\)&lt;/li&gt;
+  &lt;li&gt;\(t\text{: target image}\)&lt;/li&gt;
+  &lt;li&gt;\(v\text{: combined image, result of blending}\)&lt;/li&gt;
+  &lt;li&gt;\(S\text{: area where mask = True}\)&lt;/li&gt;
+  &lt;li&gt;\(S^c\text{: area where mask = False}\)&lt;/li&gt;
+  &lt;li&gt;\(N_i\text{: the neighbouring points of }i\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We start with a source image (usually an object in the foreground, smaller patch) and a target image (usually the background image, the entire scene will be used). We first draw a mask to decide which area of the source we want to paste into the target image.&lt;/p&gt;
+
+&lt;p&gt;Next we look at the gradients of the three images: source, target, and combined. If we want the area inside the mask to be well blended, then we should try to match the gradient \(v&apos;\) of the new image to the gradient \(s&apos;\) of the source image, assuming we care more about the gradients than the actual pixel values.&lt;/p&gt;
+
+&lt;p&gt;Near the border of the mask, however, we want the image to resemble both the source and the target image. Specifically, we want to have the same &lt;strong&gt;shape&lt;/strong&gt; as the source image but have the same &lt;strong&gt;colour&lt;/strong&gt; as the target image. So we try to match the pixel value \(s\) of the source image to \(t + s&apos;\) which is the pixel value of target image \(t\) but changed by the gradient of source image \(s\).&lt;/p&gt;
+
+&lt;h2 id=&quot;toy-example&quot;&gt;Toy example&lt;/h2&gt;
+&lt;p&gt;In this example, we try to reconstruct an image by looking at the gradients of an image and a single pixel. If we can maintain the gradients as well as that single pixel, we should be able to recover the original image.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;data/toy.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;blending-result&quot;&gt;Blending Result&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;data/jeju_cliff_medium.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;
+&lt;img src=&quot;data/dodubong.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;
+At first, I combined the above two images to get the blended result below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;data/00%20jeju-cliff-lighthouse.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;But there were two problems here. The first is that the scale of detail in the waves is off. The second is that although I tried to align the horizon in the two images exactly, due to weather conditions the contrast between the sky and sea are different and so the colour of the sky has not blended in very well.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;data/00%20dodubong-jeju_cliff.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After changin the magnification and cropping out the sky, I got the image above. It is not perfect either – the colour of the rocks blended into the patch. This could have been prevented with a more content-aware crop.&lt;/p&gt;
+
+&lt;h2 id=&quot;discussion&quot;&gt;Discussion&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;Horse blended into cliff:
+&lt;img src=&quot;data/horse+cliff.png&quot; alt=&quot;Alt text&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Fireworks blended into skyline:
+&lt;img src=&quot;data/00%20fireworks-abudhabi.png&quot; alt=&quot;Alt text&quot; /&gt;
+The first two blended images here point to the fact that blending works well if the surrounding texture in both the source and target images have similar roughness in texture and a similar colour. If I were to position the patches differently, it would not have worked so seamlessly.
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Person blended into waterfall:
+&lt;img src=&quot;data/00%20father+rain_rock.png&quot; alt=&quot;Alt text&quot; /&gt;
+While this image above involving my father is my favourite, it is not the most seamless. That is because the level of focus blur is different for the target and source images. However, making the patch very small helps it to go unnoticed for unassuming eyes. 
+&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;Squirrel blended onto helmet:
+&lt;img src=&quot;data/squirrel+window_cleaner.png&quot; alt=&quot;Alt text&quot; /&gt;
+I thought this image of a squirrel would have worked very well – and although the blend itself is quite seamless, the colour of the squirrel is very off. I guess what I thought were two similar colours in the sky and in the background of the squirrel were actually quite different. It seems that to match the two colours, the colour of the squirrel was sacrificed.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
+
+&lt;script id=&quot;MathJax-script&quot; async=&quot;&quot; src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- &lt;script type=&quot;text/javascript&quot; src=&quot;/course/16-726-sp23/projects/myunggus/assets/js/MathJax/MathJax.js&quot;&gt;&lt;/script&gt; --&gt;
+&lt;!-- &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js&quot;&gt;&lt;/script&gt; --&gt;
+
+          </description>
+          <pubDate>Sat, 18 Feb 2023 00:00:00 -0500</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/proj2/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/proj2/</guid>
+          
+          
+          <category>assignment</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title>Colorizing the Prokudin-Gorskii Photo Collection</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;Happy Valentine’s Day everyone. A little background on this photo collection and an overview of what this post is about (taken from course homepage):&lt;/p&gt;
+
+&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Prokudin-Gorskii&quot;&gt;Sergei Mikhailovich Prokudin-Gorskii&lt;/a&gt; (1863-1944) [Сергей Михайлович Прокудин-Горский, to his Russian friends] was a man well ahead of his time. Convinced, as early as 1907, that color photography was the wave of the future, he won Tzar’s special permission to travel across the vast Russian Empire and take color photographs of everything he saw including the only color portrait of &lt;a href=&quot;http://en.wikipedia.org/wiki/Leo_Tolstoy&quot;&gt;Leo Tolstoy&lt;/a&gt;. And he really photographed everything: people, buildings, landscapes, railroads, bridges… thousands of color pictures! His idea was simple: record three exposures of every scene onto a glass plate using a red, a green and a blue filter. Never mind that there was no way to print color photographs until much later – he envisioned special projectors to be installed in “multimedia” classrooms all across Russia where the children would be able to learn about their vast country. Alas, his plans never materialized: he left Russia in 1918, right after the revolution, never to return again. Luckily, his RGB glass plate negatives, capturing the last years of the Russian Empire, survived and were purchased in 1948 by the Library of Congress. The LoC has recently digitized the negatives and made them available on-line.&lt;/p&gt;
+
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;The goal of this assignment is to take the digitized Prokudin-Gorskii glass plate images and, using image processing techniques, automatically produce a color image with as few visual artifacts as possible. In order to do this, you will need to extract the three color channel images, place them on top of each other, and align them so that they form a single RGB color image. A cool explanation on how the Library of Congress created the color images on their site is available &lt;a href=&quot;http://www.loc.gov/exhibits/empire/making.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;stacking&quot;&gt;Stacking&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;data/dumb-three_generations.jpg&quot; alt=&quot;simple stacking three generations&quot; width=&quot;384&quot; /&gt;
+The simplest approach to this problem is splitting the image into three equal parts and layering each part as a separate channel. The “dumb” stacking approach is a single line of code but it already outputs something that looks pretty cool.&lt;/p&gt;
+
+&lt;h2 id=&quot;problem-alignment&quot;&gt;Problem: Alignment&lt;/h2&gt;
+
+&lt;h3 id=&quot;shifting-artifacts&quot;&gt;Shifting artifacts&lt;/h3&gt;
+
+&lt;p&gt;We see shifts as patches of strong RGB (bright spots) or strong CMY (dark spots). For example, in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;three_generations&lt;/code&gt;, hats have shifted patches with strong yellow at the bottom, strong magenta in the middle, and strong cyan at the top. This is due to the hat being a dark region. Since the surrounding is very bright, a dark patch in the blue channel leads to a relatively bright red and green pixel that shows up as a yellow patch.
+&lt;img src=&quot;data/dumb_three_generations_hat.png&quot; alt=&quot;hat&quot; width=&quot;384&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On the other hand, the belt is brighter and shows strong red, green, blue patches. 
+&lt;img src=&quot;data/dumb_three_generations_belt.png&quot; alt=&quot;belt&quot; width=&quot;384&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;search-space&quot;&gt;Search space&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;data/displacement-measurement.png&quot; alt=&quot;Measuring displacement in pixels&quot; width=&quot;450&quot; /&gt;
+The screenshot shows me measuring the vertical displacement between the red and blue channel. From this eyeball measurement, I decided I’ll search over a 160x160 space of possible shifts to align each channel. However, this leads to (10 images) x (2 channel pairs) x (160x160 displacements) = 512,000, which is a little too much. For now, I’ll scale down the images by a factor of four and make it more manageable and only search over 40x40 displacements.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;h3 id=&quot;ssd&quot;&gt;SSD&lt;/h3&gt;
+&lt;p&gt;Using this method, SSD already gives reasonable results. Examples: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cathedral&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Three Generations&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Dumb Stacking:
+&lt;img src=&quot;data/dumb_cathedral.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;
+&lt;img src=&quot;data/dumb-three_generations.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;SSD:
+&lt;img src=&quot;data/ssd_cathedral.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;
+&lt;img src=&quot;data/ssd_three_generations.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A failure case is with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Harvesters&lt;/code&gt; where the iterating pattern of the bushes seem to have matched up well but not in other areas. It would be interesting to see if that area has a very low SSD score.
+&lt;img src=&quot;data/ssd-harvesters.jpg&quot; alt=&quot;harvesters&quot; width=&quot;384&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ncc&quot;&gt;NCC&lt;/h3&gt;
+&lt;p&gt;NCC works slightly better than SSD across most images.&lt;/p&gt;
+
+&lt;p&gt;Dumb stack:
+&lt;img src=&quot;data/dumb_cathedral.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;
+SSD:
+&lt;img src=&quot;data/ssd_cathedral.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;
+NCC:
+&lt;img src=&quot;data/ncc_cathedral.jpg&quot; alt=&quot;Alt text&quot; width=&quot;384&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;image-pyramid&quot;&gt;Image Pyramid&lt;/h3&gt;
+&lt;p&gt;Using image pyramids I was able to search a larger space but faster using coarse-to-fine strategy. Combined with cropping, to search across the same space, it takes only about 10% of the time it requires without the image pyramid.&lt;/p&gt;
+
+&lt;h4 id=&quot;image-pyramid-height&quot;&gt;Image Pyramid Height&lt;/h4&gt;
+&lt;p&gt;Depending on the height/depth of the image pyramid, the high resolution features can get blurred out too much and finds a bad starting point. With a bad starting point, the coarse-to-fine strategy can get stuck at a local minimum. Since the image sizes differed, I used a log function to set the minimum image size to be around 16~32 pixels.&lt;/p&gt;
+
+&lt;p&gt;An extension of this method could also consider average local variability. We can stop downsampling when a target lower bound on the local variability is reached.&lt;/p&gt;
+
+&lt;h3 id=&quot;letterbox&quot;&gt;Letterbox&lt;/h3&gt;
+
+&lt;p&gt;Notice that the edges (“letterbox”) are aligned very well. Because the letterbox is so prominent (ie. high contrast/clarity from surrounding areas), properly aligning the letterbox gives the algorithms a good score.&lt;/p&gt;
+
+&lt;h4 id=&quot;manual-cropping&quot;&gt;Manual Cropping&lt;/h4&gt;
+&lt;p&gt;I added a manual crop of 10% from each side and kept the 80% as input to the alignment algorithms, to get rid of the effect of the borders. We can see that horizontal alignment has improved a lot, but vertical alignment seems similar. The effect is demonstrated well in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Without cropping before input into algorithm:
+&lt;img src=&quot;data/train_ncc.jpg&quot; alt=&quot;Train NCC&quot; width=&quot;384&quot; /&gt; 
+With cropping before input into algorithm:
+&lt;img src=&quot;data/train_ncc_manual-crop.jpg&quot; alt=&quot;Train NCC Cropped&quot; width=&quot;384&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I kept reducing the crop factor all the way down to 5%, using only the data in the center of the image to align the channels. The result is a huge speed up and for some images like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Emir&lt;/code&gt;, this works well because incidentally the center pixels were best for aligning. However, for some images like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lady&lt;/code&gt;, the center pixels lack detail and needed a larger window of at least 15% crop factor to achieve good results.&lt;/p&gt;
+
+&lt;h4 id=&quot;mirroring-at-the-edge&quot;&gt;Mirroring at the edge&lt;/h4&gt;
+&lt;p&gt;I’ve used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;np.roll&lt;/code&gt; to maintain the shape of the channels, but the problem with this is that it wraps the edges around to the other side. Edges on different ends of the image may differ greatly in value. This means that the images might be harshly penalized if the frame needs to wrap around.&lt;/p&gt;
+
+&lt;p&gt;To mitigate this possibility, instead of rolling pixels over when shifting the window, I used symmetric padding to ‘extend’ the image rather than wrap it around. (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;np.pad&lt;/code&gt; has modes &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reflect&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;symmetric&lt;/code&gt;). However, this did not result in better outcomes. It fails miserably in some cases, wrapping around almost halfway. Perhaps the pixels were now too similar to each other that it was hard to find a sensible minimum score.&lt;/p&gt;
+
+&lt;h3 id=&quot;final-results&quot;&gt;Final Results&lt;/h3&gt;
+&lt;h4 id=&quot;ncc-image-pyramid-depth-of-3-crop-factor-of-06&quot;&gt;NCC, Image Pyramid depth of 3, Crop factor of 0.6&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;data/final/cathedral.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cathedral 			r_shift=[ 12,  3]	g_shift=[ 5,  2]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;ncc-image-pyramid-depth-of-8-crop-factor-of-06&quot;&gt;NCC, Image Pyramid depth of 8, Crop factor of 0.6&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;data/final/harvesters.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;harvesters  		r_shift=[123, 14]	g_shift=[59, 17]&lt;/code&gt;
+&lt;img src=&quot;data/final/icon.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;icon  				r_shift=[ 89, 23]	g_shift=[40, 17]&lt;/code&gt;
+&lt;img src=&quot;data/final/lady.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lady  				r_shift=[109, 11]	g_shift=[49,  8]&lt;/code&gt;
+&lt;img src=&quot;data/final/self_portrait.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self_portrait  	r_shift=[176, 37]	g_shift=[78, 29]&lt;/code&gt;
+&lt;img src=&quot;data/final/three_generations.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;three_generations  r_shift=[110, 12]	g_shift=[50, 14]&lt;/code&gt;
+&lt;img src=&quot;data/final/train.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train  			r_shift=[ 87, 32]	g_shift=[42,  6]&lt;/code&gt;
+&lt;img src=&quot;data/final/turkmen.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;turkmen  			r_shift=[116, 28]	g_shift=[55, 20]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;ncc-image-pyramid-depth-of-8-crop-factor-of-01&quot;&gt;NCC, Image Pyramid depth of 8, Crop factor of 0.1&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;data/final/emir.jpg&quot; alt=&quot;label&quot; /&gt; 
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;emir				r_shift=[105, 41]	g_shift=[48, 23]&lt;/code&gt;
+&lt;img src=&quot;data/final/village.jpg&quot; alt=&quot;label&quot; /&gt;
+☝ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;village			r_shift=[137, 23]	g_shift=[64, 13]&lt;/code&gt;&lt;/p&gt;
+
+          </description>
+          <pubDate>Wed, 15 Feb 2023 00:00:00 -0500</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/proj1/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/proj1/</guid>
+          
+          
+          <category>assignment</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title>Helmholtz Stereopsis</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;Let’s talk about Zickler et al.’s paper “Helmholtz Stereopsis: Exploiting Reciprocity for Surface Reconstruction”. The name ‘Helmholtz Stereopsis’ comes from the fact that this method exploits Helmholtz reciprocity. It’s a physical property of most material that says that swapping the location of lighting and camera will not change the brightness of a point on the material.&lt;/p&gt;
+
+&lt;h3 id=&quot;this-method-is-great&quot;&gt;This method is great.&lt;/h3&gt;
+&lt;p&gt;Jumping to conclusions: Helmholtz stereopsis does better than two pre-existing general stereopsis techniques (photometric and conventional multinocular) in almost every possible way. The most useful of its premises is that it assumes nothing about the BRDF (Bidirectional Reflectance Distribution Function) so it can be used on a wide range of objects. The most useful of its abilities is that it can retrieve depth &lt;em&gt;and&lt;/em&gt; surface normals at the same time. 
+Why is it important that we can get depth and surface normals? Because calculating one from the other often leads to error and/or may need fancy math to do it properly.&lt;/p&gt;
+
+&lt;h3 id=&quot;idea&quot;&gt;Idea&lt;/h3&gt;
+&lt;p&gt;A limitation of this method is that it cannot usually be used on larger objects or fixed objects outdoors that cannot be put under controlled lighting settings. However, there is one light source outdoors that constantly changes – the Sun. We know the precise location of the Sun at a given time and we could also program a drone to capture images from a precise location and angle. Using Helmholtz Stereopsis could work in our favour when we’re modelling a large landscape - maybe a mountain or a building. Urban landscape modelling could be useful for mobile map services to provide rough 3D shapes of buildings (especially complex ones like Gates-Hillman Center). Within a short time frame, we can assume the direction of light from the Sun is constant and parallel. Then an aerial drone can fix its camera angle and capture multiple shots from different positions. (Does distance of the camera from the scene matter here under perspective projection?)&lt;/p&gt;
+
+          </description>
+          <pubDate>Tue, 07 Feb 2023 00:00:00 -0500</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/helmholtz-stereopsis/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/helmholtz-stereopsis/</guid>
+          
+          
+          <category>opinion</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;I won’t use title headings for normal posts. Let’s see how long the excerpt goes on for. This is a pretty long paragraph and I expect it should have been cut off by now. However, this is another sentence just in case.&lt;/p&gt;
+
+&lt;!-- excerpt_separator --&gt;
+
+          </description>
+          <pubDate>Mon, 23 Jan 2023 00:00:00 -0500</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/random/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/random/</guid>
+          
+          
+          <category>opinion</category>
+          
+        </item>
+      
+    
+      
+        <item>
+          
+            <title>#0: How to submit assignments?</title>
+          
+          <author>myunggus@andrew.cmu.edu (image synthesis)</author>
+          <description>
+            &lt;p&gt;The question that opens a course at CMU. Perhaps the only thing I can figure out perfectly in this course.&lt;/p&gt;
+
+&lt;!-- excerpt_separator --&gt;
+
+&lt;p&gt;The first paragraph is not indented. The second paragraph and onwards are indented.&lt;/p&gt;
+
+&lt;p&gt;This website theme was made by &lt;a href=&quot;https://patdryburgh.com/&quot;&gt;patdryburgh&lt;/a&gt;. Photos below are mine though.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;data/output_bezier_1850.jpg&quot; alt=&quot;bezier curves&quot; /&gt;&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img alt=&quot;&quot; src=&quot;/course/16-726-sp23/projects/myunggus/assets/images/DSC09736 output_rotatedrect_16.jpg&quot; /&gt;
+  &lt;img alt=&quot;&quot; src=&quot;/course/16-726-sp23/projects/myunggus/assets/images/DSC09736.jpg&quot; /&gt;
+  &lt;figcaption&gt;
+    Photos by myunggus
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;We have code highlighting&lt;/p&gt;
+
+&lt;div class=&quot;language-py highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# python
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And to produce a page like this we need the following folder structure:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_posts &amp;gt; whatever_folder_name &amp;gt; yyyy-mm-dd-projN.md
+_posts &amp;gt; whatever_folder_name &amp;gt; data &amp;gt; whatever_local_files
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;where N is a number.&lt;/p&gt;
+
+&lt;p&gt;They only need a filename.
+Permalink in the front-matter of post-title.md should be empty.
+The date in the front-matter is what actually gets used.&lt;/p&gt;
+
+          </description>
+          <pubDate>Sun, 22 Jan 2023 00:00:00 -0500</pubDate>
+          <link>http://localhost:4000/course/16-726-sp23/projects/myunggus/proj0/</link>
+          <guid isPermaLink="true">http://localhost:4000/course/16-726-sp23/projects/myunggus/proj0/</guid>
+          
+          
+          <category>assignment</category>
+          
+        </item>
+      
+    
+  </channel>
+</rss>

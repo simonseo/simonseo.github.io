@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>image synthesis &mdash; Epipolar Time-of-Flight Imaging</title>
+
+    <meta name="description" content="coursework by myunggus">  
+
+    <link rel="stylesheet" href="http://localhost:4000/course/16-726-sp23/projects/myunggus/assets/css/main.css?1679543687599293000">
+
+    <link rel="apple-touch-icon" href="/assets/images/icon-512.png"></head>
+  <body>
+
+    <!-- removed skip navigation -->
+    <!-- 
+      <a href="#main" class="skip-navigation">
+        Skip to content
+      </a>
+     -->
+
+    
+  <a href="/course/16-726-sp23/projects/myunggus/" class="back-link">
+  &lang; Home
+</a>
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" id="main" role="article" aria-label="Content">
+
+  
+    <h1 class="post-title divided p-name" itemprop="name headline">
+      Epipolar Time-of-Flight Imaging
+    </h1>
+  
+
+  
+  
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><img src="epipolar-setup.jpg" alt="Alt text" /></p>
+
+<p>Let’s talk about Achar et al.’s paper “Epipolar Time-of-Flight Imaging”. This relates to my MSCV capstone project “Neural Synthetic Wavelength Interferometry” in that this method and our method both use continuous-wave Time-of-Flight (CW-ToF) sensors. This paper notes CW-ToF sensor’s shortcomings and tries to improve it. In my capstone project, we improve on it by applying neural networks to some parts of the pipeline.</p>
+
+<h3 id="what-this-paper-does-well">What this paper does well</h3>
+
+<p>The strength of this paper is not only its wide applicability, but a thorough consideration for the applications, including eye safety, power consumption, interference &amp; interreflections, and different use cases.
+The author provide a well explained and useful comparison between epipolar planes’ sampling orders for each scenario. For example, figure 3(e) depicts a scheme that is robust against camera shake (and thus reducing blur in depth map) and samples at twice the speed to fix rolling shutter effect (but sacrificing vertical resolution). Figure 3(f) depicts a scheme assumes a scenario where the sensor is mounted to a car and allows sampling less from the horizon where objects move slowly on the sensor as opposed to near the ground (near the sensor) where things move faster in the projected image.</p>
+
+<p><img src="sampling-schemes.png" alt="Alt text" /></p>
+
+<h3 id="questions-and-exploration">Questions and Exploration</h3>
+<ul>
+  <li>Can we use a compliant mechanism to move the scanning mirror, to achieve better longevity?</li>
+  <li>Where is the remaining noise coming from?</li>
+  <li>Why are LIDAR sensors expensive, and does this prototype mitigate the high cost?</li>
+  <li>Can we say that epipolar ToF imaging is a generalized version of the usual CW-ToF that uses a <em>0D</em> laser light source, whereas the epipolar ToF sensor uses <em>1D</em> lasers? Or is it just LIDAR that uses 0D light sources</li>
+  <li>Is a horizontally sweeping snesor (that uses a vertical epipolar plane) better at mitigating rolling shutter effect on a moving vehicle?</li>
+  <li>Why do the authors use two exposures/readouts per row in figure 5?
+<img src="timing-diagram.png" alt="Alt text" /></li>
+</ul>
+
+  </div>
+
+  <div class="post-meta">
+    
+      <div itemprop="author">Simon Seo</div>
+    
+    <time class="post-date dt-published" datetime="2023-03-01T00:00:00-05:00" itemprop="datePublished">March 1, 2023</time>
+  </div>
+
+  
+
+</article>
+
+
+    
+
+    
+
+
+
+    
+      <aside class="site-credits">
+        <p>
+          <small><a href="https://github.com/patdryburgh/hitchens">Hitchens Theme</a> powered by <a href="http://jekyllrb.com">Jekyll</a></small>
+        </p>
+      </aside>
+    
+
+  </body>
+</html>
