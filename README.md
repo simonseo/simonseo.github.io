@@ -3,13 +3,27 @@ layout: page
 title: "Hitchens"
 ---
 
-Coursework for CMU 16-726 Image Synthesis taught by Jun-Yan Zhu.
-
 ## Theme
 An inarguably well-designed [Jekyll](http://jekyllrb.com) theme by [Pat Dryburgh](https://patdryburgh.com).
 
 
 ### Development
+
+#### MacOS
+```
+brew install chruby ruby-install
+echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
+echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc     
+ruby-install 3.2.0
+chruby 3.2.0
+bundle install
+bundle exec jekyll serve --config _config.yml
+bundle exec jekyll serve --config _config_github.yml
+bundle exec jekyll build --config _config.yml
+bundle exec jekyll build --config _config_github.yml
+```
+
+
 
 To set up your environment to develop this theme, run `bundle install`.
 
