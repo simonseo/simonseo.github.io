@@ -1,0 +1,18 @@
+// CSS that applies to each specific post.
+// include a label in the front matter of your .md file like so:
+// style: image-synthesis-proj5
+// and use the label as a class name for your post. 
+// The class will be added to the <article> tag of the post.
+
+.image-synthesis-proj5 {
+    img {
+        margin: 0 auto;
+    }
+    td {
+        vertical-align: middle;
+        padding: 0.1em;
+    }
+    table {
+        margin: 0 auto;
+    }
+}
