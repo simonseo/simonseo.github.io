@@ -1,5 +1,6 @@
 .post {
   background: white;
+  color: #0b0404;
   margin: 2em auto;
   max-width: 84rem;
   padding: 2em 0;
@@ -67,6 +68,7 @@
 }
 
 .back-link {
+  color: $brand-text-color;
   display: inline-block;
   font-size: .75em;
   padding: 1em;

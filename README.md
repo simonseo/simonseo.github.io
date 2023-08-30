@@ -17,9 +17,7 @@ echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
 ruby-install 3.2.0
 chruby 3.2.0
 bundle install
-bundle exec jekyll serve --config _config.yml
 bundle exec jekyll serve --config _config_github.yml
-bundle exec jekyll build --config _config.yml
 bundle exec jekyll build --config _config_github.yml
 ```
 
