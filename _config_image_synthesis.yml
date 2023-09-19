@@ -1,0 +1,67 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: image synthesis
+email: myunggus@andrew.cmu.edu
+description: >- # this means to ignore newlines until "baseurl:"
+  coursework by myunggus
+baseurl: "/course/16-726-sp23/projects/myunggus" # the subpath of your site, e.g. /blog
+url: "https://www.andrew.cmu.edu" # the base hostname & protocol for your site, e.g. http://example.com
+icon: /assets/images/icon-512.png
+twitter_username: 
+github_username:  simonseo
+
+# Build settings
+markdown: kramdown
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
+gems:
+  - jekyll-numbered-headings
+
+plugins:
+  - jekyll-paginate
+  - jekyll-toc
+  
+
+paginate: 3
+paginate_path: "/page/:num/"
+hide_credits: false
+hide_search: true
+
+collections:
+  projects:
+    output: false
+    permalink: /projects-:title/
+
+# for regular posts
+permalink: /:title/
+
+# TOC Settings
+toc:
+  min_level: 2
+  max_level: 6
+  list_class: toc
+  list_class: toc__list
+  sublist_class: toc__sublist

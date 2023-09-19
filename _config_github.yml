@@ -58,10 +58,34 @@ paginate_path: "/page/:num/"
 hide_credits: false
 hide_search: true
 
+# for posts in _projects folder
 collections:
   projects:
-    output: false
+    output: false # change this to true to build _projects folder
     permalink: /projects-:title/
+
+# for subdirectories in _posts folder
+defaults:
+  - scope:
+      path: "_posts/geometry based vision"
+      type: posts
+    values:
+      permalink: geometry-based-vision/:title
+  - scope:
+      path: "_posts/physics based vision"
+      type: posts
+    values:
+      permalink: physics-based-vision/:title
+  - scope:
+      path: "_posts/nswi"
+      type: posts
+    values:
+      permalink: nswi/:title
+  - scope:
+      path: "_posts/image synthesis"
+      type: posts
+    values:
+      permalink: image-synthesis/:title
 
 # for regular posts
 permalink: /:title/
