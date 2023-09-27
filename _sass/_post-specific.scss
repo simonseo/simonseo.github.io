@@ -70,3 +70,29 @@
         }
     }
 }
+
+.geoviz-proj1 {
+
+    table {
+        margin: 1rem auto;
+        text-align: center;
+        border-radius: 5px;
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            max-width: 500px;
+            min-width: 200px;
+            vertical-align: middle;
+        }
+
+        th {
+            font-weight: 900;
+            background-color: #f8f8f8;
+        }
+    }
+
+    .post-content {
+        max-width: fit-content;
+    }
+}
