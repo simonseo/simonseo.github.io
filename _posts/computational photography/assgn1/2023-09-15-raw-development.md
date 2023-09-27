@@ -101,6 +101,8 @@ See `1.2/patch-cloud.png`, `1.2/patch-concrete.png`, `1.2/patch-metal.png`
 ## Learn to use dcraw 
 Dcraw command:
 
+
+```sh
 dcraw 
 -a		# Average the whole image for white balance
 -b 1.69	# Adjust brightness
@@ -108,6 +110,8 @@ dcraw
 -o 1		# sRGB color space
 -q 0 	# bilinear interpolation
 data/campus.nef
+```
+
 I prefer the custom white balanced image the best, because the dynamic range covers both the dark and white areas which contributes hugely to the overall visual quality. However, when zoomed in, I can 
 see that dcraw’s demosaicing algorithm performs better. The white-world and grey-world images show a 
 slight green tint globally.
