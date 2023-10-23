@@ -42,6 +42,7 @@ exclude:
   - "_posts/computational photography"
   - "_posts/nswi"
   - "README.md"
+  - ".git/"
 
 gems:
   - jekyll-numbered-headings
