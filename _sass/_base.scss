@@ -129,7 +129,6 @@ figcaption {
 
 .content-title {
   font-size: 2em;
-  margin-bottom: 2em;
   text-align: center;
 }
 
@@ -141,6 +140,26 @@ figcaption {
   text-transform: uppercase;
   .post-link & {
     padding: .5em 0;
+  }
+}
+
+footer {
+  color: $brand-text-color;
+
+  &:hover,
+  &:focus-within {
+    a {
+      opacity: .6;
+    }
+  }
+  a {
+    text-decoration: none;
+    transition: opacity .125s ease-in-out;
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+    color: inherit;
   }
 }
 

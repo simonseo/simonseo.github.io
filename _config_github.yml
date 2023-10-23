@@ -53,8 +53,8 @@ plugins:
   - jekyll-toc
   
 
-paginate: 3
-paginate_path: "/page/:num/"
+paginate: 5
+paginate_path: "/:num/"
 hide_credits: false
 hide_search: true
 
