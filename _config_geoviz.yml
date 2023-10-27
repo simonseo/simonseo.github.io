@@ -28,21 +28,14 @@ markdown: kramdown
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
-# to override the default setting.
+# to add to the default setting.
 exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
-  - "_posts/image synthesis"
-  - "_posts/physics based vision"
-  - "_posts/computational photography"
-  - "_posts/nswi"
   - "README.md"
   - ".git/"
+  - "_posts/"
+
+include:
+  - "geometry based vision/"
 
 gems:
   - jekyll-numbered-headings
