@@ -32,7 +32,7 @@ markdown: kramdown
 exclude:
   - "README.md"
   - ".git/"
-  - "_posts/"
+  - "_posts/" # comment this out to use --watch option
 
 include:
   - "geometry based vision/"
@@ -65,3 +65,4 @@ toc:
   list_class: toc
   list_class: toc__list
   sublist_class: toc__sublist
+  

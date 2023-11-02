@@ -95,6 +95,14 @@
     .post-content {
         max-width: fit-content;
     }
+
+    figure {
+        text-align: center;
+        > img {
+            display: inline-block;
+        }
+    }
+    
 }
 
 .hdr-imaging {
@@ -108,7 +116,7 @@
     figure {
         text-align: center;
     }
-
+    
     .post-content {
         max-width: fit-content;
     }

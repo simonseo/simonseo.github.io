@@ -19,5 +19,5 @@ build:
 	$(jekyll) build --config $(CONFIG) --future --trace
 
 serve:
-	$(jekyll) serve --host localhost --config $(CONFIG) --port 4000 --open-url
+	$(jekyll) serve --host localhost --config $(CONFIG) --port 4000 --open-url --incremental
 	
