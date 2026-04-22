@@ -7,6 +7,7 @@ categories: assignment
 date: 2023-09-29
 # toc: true
 style: hdr-imaging
+mathjax: true
 ---
 ### 1.1 `dcraw`
 
@@ -192,8 +193,3 @@ Using optimal weights, we get the following image:
 ![](data/5/B=0.800_K=0.125_ghc_optimal_downsampled.png)
 
 Frankly, it is hard to see noticeable differences in the two images, one produced using photon weights and one with optimal weights.
-
-<!-- MathJax library for rendering LaTeX -->
-<!-- example usage: $$\tilde{\theta}$$  -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

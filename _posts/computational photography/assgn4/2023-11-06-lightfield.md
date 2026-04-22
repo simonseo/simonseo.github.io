@@ -7,6 +7,7 @@ categories: assignment
 date: 2023-11-06
 # toc: true
 style: geoviz-proj1
+mathjax: true
 ---
 
 <!-- View this page on [my blog]({{ site.base_url }}/lightfield) for moving GIFs. -->
@@ -118,8 +119,3 @@ Bottom Right: A refocused image on the template<br>
     Bottom: refocused on door
     </figcaption>
 </figure>
-
-<!-- MathJax library for rendering LaTeX -->
-<!-- example usage: $$$\tilde{\theta}$$$  -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

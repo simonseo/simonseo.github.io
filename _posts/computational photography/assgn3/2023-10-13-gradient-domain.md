@@ -7,6 +7,7 @@ categories: assignment
 date: 2023-10-13
 # toc: true
 style: hdr-imaging
+mathjax: true
 ---
 ## Differentiate and re-integration of image
 ![Alt text](data/2-00-image-reconstruction.png)
@@ -36,9 +37,3 @@ Different initializations did not effect the outcome image that much, but the bo
 
 
 ![Alt text](data/2-06-christmas-tree.png)
-
-
-<!-- MathJax library for rendering LaTeX -->
-<!-- example usage: $$$\tilde{\theta}$$$  -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
