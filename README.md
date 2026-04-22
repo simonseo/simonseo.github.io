@@ -3,37 +3,33 @@ layout: page
 title: "Hitchens"
 ---
 
-### Simon's blog
-Photography, Film, AI musings and discoveries
+## Simon's blog
 
-### Development
+This site is a Jekyll blog with posts stored under [`_posts`](/Users/sseo/Documents/simonseo.github.io/_posts).
 
-#### MacOS
-```
+## Development
+
+### Run locally
+
+```bash
 brew install chruby ruby-install
 echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
-echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc     
+echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
 ruby-install 3.2.0
 chruby 3.2.0
 bundle install
-bundle exec jekyll serve --config config/_config_github.yml
-bundle exec jekyll build --config config/_config_github.yml
+./run.sh
 ```
 
+Alternative commands:
 
+```bash
+make test
+make build
+make serve
+```
 
-To set up your environment to develop this theme, run `bundle install`.
-
-The theme is setup just like a normal Jekyll site. To test the theme, run `bundle exec jekyll serve` and open your browser at `http://localhost:4000`. This starts a Jekyll server using the theme. Add pages, documents, data, etc. like normal to test the theme's contents. As you make modifications to the theme and to your content, your site will regenerate and you should see the changes in the browser after a refresh, just like normal.
-
-
-
-
-### Theme
-An inarguably well-designed [Jekyll](http://jekyllrb.com) theme by [Pat Dryburgh](https://patdryburgh.com).
-
-
-### License
+## License
 
 The code for this theme is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
