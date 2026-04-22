@@ -4,7 +4,7 @@ layout: post
 author: "Simon Seo"
 categories: opinion
 date: 2026-03-04
-style: musing-ai-agents
+style: musing
 ---
 
 
