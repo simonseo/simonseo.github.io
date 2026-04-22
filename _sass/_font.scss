@@ -12,3 +12,48 @@
        url('#{$asset_url}/fonts/EB-Garamond/eb-garamond-v9-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
        url('#{$asset_url}/fonts/EB-Garamond/eb-garamond-v9-latin-regular.svg#EBGaramond') format('svg'); /* Legacy iOS */
 }
+
+@font-face {
+  font-family: 'MaruBuri';
+  font-style: normal;
+  font-weight: 200;
+  font-display: auto;
+  src: local('MaruBuri ExtraLight'),
+       url('#{$asset_url}/fonts/MaruBuriOTF/MaruBuri-ExtraLight.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'MaruBuri';
+  font-style: normal;
+  font-weight: 300;
+  font-display: auto;
+  src: local('MaruBuri Light'),
+       url('#{$asset_url}/fonts/MaruBuriOTF/MaruBuri-Light.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'MaruBuri';
+  font-style: normal;
+  font-weight: 400;
+  font-display: auto;
+  src: local('MaruBuri Regular'),
+       url('#{$asset_url}/fonts/MaruBuriOTF/MaruBuri-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'MaruBuri';
+  font-style: normal;
+  font-weight: 600;
+  font-display: auto;
+  src: local('MaruBuri SemiBold'),
+       url('#{$asset_url}/fonts/MaruBuriOTF/MaruBuri-SemiBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'MaruBuri';
+  font-style: normal;
+  font-weight: 700;
+  font-display: auto;
+  src: local('MaruBuri Bold'),
+       url('#{$asset_url}/fonts/MaruBuriOTF/MaruBuri-Bold.otf') format('opentype');
+}
