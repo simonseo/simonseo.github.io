@@ -5,6 +5,7 @@ author: "Simon Seo"
 categories: opinion
 date: 2023-04-19
 toc: False
+mathjax: true
 ---
 
 Let's take a look at this paper: *A Reconfigurable Camera Add-On for High Dynamic Range, Multispectral, Polarization, and Light-Field Imaging*. This paper describes a new configuration of lenses and mirrors that can be useful for HDR images and light field images. 
@@ -26,11 +27,3 @@ Their hardware construction is described in the image below:
 - Focus: because the lens is elongated, I wonder if the focal distance is elongated with it, which would make it harder to focus on an image.
 
 - Another problem is that this system may suffer from low resolution and bad image quality, because the system subdivides the imaging sensor into 9 parts that each act as a different image. However, this may not be a huge issue with daily scenes in the current era where we have the capability to produce large resolution sensors.
-
-
-
-
-
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

@@ -5,6 +5,7 @@ author: "Simon Seo"
 categories: opinion
 date: 2023-04-17
 toc: False
+mathjax: true
 ---
 
 Let's take a look at this paper: [Turning Corners into Cameras: Principles and Methods (ICCV 2017)](https://openaccess.thecvf.com/content_ICCV_2017/papers/Bouman_Turning_Corners_Into_ICCV_2017_paper.pdf) by Katherine L. Bouman, Vickie Ye, Adam B. Yedidia, Fredo Durand, Gregory W. Wornell, Antonio Torralba, and William T. Freeman.
@@ -18,8 +19,3 @@ we can only make comparisons in the same scene: ie. two pixels in two separately
 
 ## Ideas 
 While I said there is no strict correlation between two pixels across two separate reconstructed videos, we are still able to say approximately which angle or location an object is. This may be useful on the road in two cases. We humans use information of headlight reflected off the ground to tell whether there is a car or not around the corner. So while we cannot be completely certain of the location of small objects, it can be useful for locating cars around corners, especially at night. In another instance, the movement of the pixel tells us something. So if we calculate the optical flow of certain pixels we could acquire some information about surrounding objects whose images are reflected of a car. However, even in that case, there would be an ambiguity among the three values position-speed-distance.
-
-
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

@@ -5,6 +5,7 @@ author: "Simon Seo"
 categories: opinion
 date: 2023-03-22
 toc: False
+mathjax: true
 ---
 
 
@@ -23,5 +24,3 @@ This theory could be easily applied to highways to model traffic around a vehicl
 
 
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

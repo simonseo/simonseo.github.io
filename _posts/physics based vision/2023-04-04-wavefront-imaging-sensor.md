@@ -5,6 +5,7 @@ author: "Simon Seo"
 categories: opinion
 date: 2023-04-03
 toc: False
+mathjax: true
 ---
 
 Let's take a look at this paper: [WISH: wavefront imaging sensor with high
@@ -56,7 +57,3 @@ Overall, the complex-valued function E(x,y,z,t) provides a complete description 
 
 ### Spatial Light Modulators (SLM)
 Spatial Light Modulators (SLMs) are advanced optical devices that can dynamically manipulate the amplitude and phase of light at a pixel level. SLMs are composed of an array of small pixels that can be individually addressed and controlled using electrical signals. By applying different voltages to these pixels, the phase and/or amplitude of light can be modified. SLMs can be used to introduce a known phase modulation to an incoming optical field, which can then be analyzed to retrieve the original wavefront.
-
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

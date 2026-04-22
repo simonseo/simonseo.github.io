@@ -5,6 +5,7 @@ author: "Simon Seo"
 categories: opinion
 date: 2023-04-05
 toc: False
+mathjax: true
 ---
 
 Let's take a look at this paper: [Polarization Fields: Dynamic Light Field Display using Multi-Layer LCDs](https://alumni.media.mit.edu/~dlanman/research/polarization-fields/polarization-fields.pdf) by Douglas Lanman, Gordon Wetzstein, Matthew Hirsch, Wolfgang Heidrich, Ramesh Raskar.
@@ -44,5 +45,3 @@ is used" [Chai et al. 2000] encode? Does it encode intensity along ray $$(u, a)$
 
 
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

@@ -5,6 +5,7 @@ author: "Simon Seo"
 categories: opinion
 date: 2023-04-19
 toc: False
+mathjax: true
 ---
 
 Let's take a look at this paper: [DiffuserCam: lensless single-exposure 3D imaging (Optica 2018)](https://opg.optica.org/optica/fulltext.cfm?uri=optica-5-1-1&id=380297).
@@ -18,6 +19,3 @@ Another limitation is that the sensor has to be much larger than the otical elem
 
 ## Ideas 
 Some ideas to improve this method are as follows. If the diffuser could be 'programmed' to have consistent caustics across devices and also be manufactured with a rigid material, the calibration process could be skipped as well as allowing the system to be used in diverse settings. On the other hand, the current approach of using an off-the-shelf diffuser sheet would be useful for medical uses if hygiene is of prime concern and contaminated surfaces must be replaced. An idea to mitigate the problem of the requirement of space between the optical element and the sensor is to use a periscope to 'fold' the light ray's path, although it is unclear if the effect would be preserved.
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
