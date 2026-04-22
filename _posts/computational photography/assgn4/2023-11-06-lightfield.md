@@ -10,7 +10,7 @@ style: geoviz-proj1
 ---
 
 <!-- View this page on [my blog]({{ site.base_url }}/lightfield) for moving GIFs. -->
-View this page on [my blog](https://simonseo.blog/lightfield) for moving GIFs.
+View this page on [my blog](https://simonseo.github.io/lightfield) for moving GIFs.
 
 ##1. Plenoptic image
 The plenoptic image is restructured as a matrix of size $$(U, V, S, T, C) = (16, 16, 700, 400, 3)$$.

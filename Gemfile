@@ -5,6 +5,7 @@ gemspec
 
 # for demo site
 gem "jekyll-paginate"
+gem "ffi", "~> 1.15"
 
 
 group :jekyll_plugins do
