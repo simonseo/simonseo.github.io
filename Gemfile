@@ -14,3 +14,5 @@ group :jekyll_plugins do
     gem 'jekyll-toc'
     gem 'jekyll-numbered-headings'
 end
+
+gem "bigdecimal", "~> 4.1"
