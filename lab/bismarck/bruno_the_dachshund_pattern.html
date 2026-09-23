@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FCFAF7">
+<title>Bruno the Dachshund — Crochet Pattern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..800,100,1&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #FCFAF7;
+  --ink: #43301F;
+  --ink-soft: #7A6449;
+  --blue: #5C9BC7;
+  --blue-deep: #3F7BA6;
+  --beige: #D9B48F;
+  --white-yarn: #F6F3EE;
+  --black: #1E1B18;
+  --done: #B7CDBD;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  touch-action: manipulation;
+}
+.skip {
+  position: absolute; left: -9999px;
+  background: var(--ink); color: var(--paper); padding: .5rem 1rem;
+}
+.skip:focus { left: 1rem; top: 1rem; z-index: 10; }
+.wrap { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+h1, h2 { font-family: "Fraunces", serif; text-wrap: balance; }
+h1 {
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  font-weight: 750; font-variation-settings: "SOFT" 100, "WONK" 1;
+  line-height: 1.05; margin: 0 0 .4rem;
+}
+h2 {
+  scroll-margin-top: 1.5rem;
+  font-size: 1.55rem; font-weight: 700; font-variation-settings: "SOFT" 100, "WONK" 1;
+  margin: 3.2rem 0 .6rem; padding-top: 1.4rem;
+  border-top: 2px dashed var(--beige);
+}
+h2 .make {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-size: .95rem; font-weight: 400; color: var(--ink-soft);
+  margin-left: .6rem;
+}
+.intro { font-size: 1.1rem; color: var(--ink-soft); margin: .4rem 0 2rem; max-width: 60ch; }
+p { text-wrap: pretty; }
+
+.yarn {
+  display: flex; border-radius: 14px; overflow: hidden;
+  margin: 0 0 2.2rem; box-shadow: 0 1px 0 rgba(67,48,31,.15);
+}
+.yarn span {
+  flex: 1; height: 92px; display: grid; place-items: end center;
+  padding-bottom: .45rem; font-size: .8rem; font-weight: 700;
+}
+.yarn .y-brown { background: var(--ink); color: var(--paper); }
+.yarn .y-white { background: var(--white-yarn); color: var(--ink); }
+.yarn .y-blue  { background: var(--blue); color: #fff; }
+.yarn .y-beige { background: var(--beige); color: var(--ink); }
+.yarn .y-black { background: var(--black); color: #fff; }
+
+table { width: 100%; border-collapse: collapse; margin: .5rem 0 1rem; }
+th {
+  text-align: left; font-size: .82rem; font-weight: 700; color: var(--ink-soft);
+  padding: .3rem .6rem; border-bottom: 1px solid var(--beige);
+}
+td { padding: .45rem .6rem; border-bottom: 1px dashed #E4D5C2; vertical-align: top; }
+td.rnd { font-family: "Fraunces", serif; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.st  { font-variant-numeric: tabular-nums; }
+td.ts  { white-space: nowrap; text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: none; }
+tbody tr { transition: background-color .15s ease, opacity .15s ease; }
+tbody tr:hover { background: #F4EDE2; }
+tr.done td { text-decoration: line-through; opacity: .45; }
+
+label.row { display: flex; gap: .5rem; align-items: flex-start; cursor: pointer; }
+input[type="checkbox"] { margin-top: .45rem; accent-color: var(--blue-deep); width: 1.05rem; height: 1.05rem; }
+:is(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--blue-deep); outline-offset: 2px; border-radius: 3px;
+}
+
+a.ts-link, a.ts {
+  color: var(--blue-deep); text-decoration: none; border-bottom: 1px solid #B9CFE0;
+  transition: border-color .15s ease;
+}
+a.ts-link:hover, a.ts:hover { border-bottom-color: var(--blue-deep); }
+
+.note {
+  background: var(--white-yarn); border-left: 4px solid var(--beige);
+  padding: .7rem 1rem; margin: .8rem 0 1.2rem; border-radius: 0 10px 10px 0;
+  font-size: .98rem;
+}
+.note b { color: var(--ink); }
+figure { margin: 1rem 0 1.4rem; }
+figure img { width: 100%; height: auto; border-radius: 12px; display: block; }
+figcaption { font-size: .85rem; color: var(--ink-soft); margin-top: .45rem; text-wrap: pretty; }
+
+ol.assembly { padding-left: 1.4rem; margin: .5rem 0; }
+ol.assembly li { margin-bottom: .7rem; padding-left: .3rem; }
+
+.materials { margin: .4rem 0 1.2rem; }
+.materials ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .35rem; }
+.materials li { padding-left: 1.35rem; position: relative; }
+.materials li::before {
+  content: ""; position: absolute; left: 0; top: .52em;
+  width: .72em; height: .72em; border-radius: 50%;
+  background: var(--dot, var(--ink));
+}
+.progress {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--paper); border-bottom: 1px dashed var(--beige);
+  padding: .45rem 0; font-size: .9rem; color: var(--ink-soft);
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+}
+.bar { flex: 1; height: 6px; background: #EFE6D8; border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--blue-deep); transition: width .2s ease; }
+@media print {
+  .progress, .skip { display: none; }
+  body { font-size: 10.5pt; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  tbody tr, a.ts-link, .bar i { transition: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to pattern</a>
+<div class="wrap">
+<main id="main">
+<h1>Bruno the Dachshund</h1>
+<p class="intro">A sausage-dog amigurumi with a striped blue-and-white body, floppy ears, a beige snout and a stubby tail. Transcribed from the Xuxu Crochet video tutorial — every row links to the moment it appears on screen. Tick rows off as you crochet; your progress is saved.</p>
+
+<figure>
+  <img src="img/hero.jpg" alt="The finished crocheted dachshund’s head: brown stitches with a beige snout, a black safety eye and a floppy ear" width="1100" height="618" fetchpriority="high">
+  <figcaption>Bruno, near completion — head, snout and ear as they come together at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2560" target="_blank" rel="noopener">42:40</a>.</figcaption>
+</figure>
+
+<div class="yarn" role="img" aria-label="The five yarn colors used: brown, white, blue, beige and black milk-cotton 4-ply">
+  <span class="y-brown">26</span><span class="y-white">63</span><span class="y-blue">54</span><span class="y-beige">18</span><span class="y-black">21</span>
+</div>
+
+<div class="progress">
+  <div class="bar" role="presentation"><i></i></div>
+  <span id="count" aria-live="polite">0 of 30 rows done</span>
+</div>
+
+<h2>Materials</h2>
+<figure>
+  <img src="img/materials.jpg" alt="Materials laid out: four skeins of yarn in brown, white, blue and beige, a length of black yarn, stuffing, 4 mm eyes and a 2.5 mm red crochet hook" width="1100" height="618" loading="lazy" decoding="async">
+  <figcaption>Everything the pattern needs, exactly as shown at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=26" target="_blank" rel="noopener">0:26</a>.</figcaption>
+</figure>
+<div class="materials">
+<ul>
+  <li style="--dot: var(--ink)">Brown #26 milk-cotton 4-ply — body, head, legs, ears, tail</li>
+  <li style="--dot: var(--white-yarn)">White #63 — body stripes</li>
+  <li style="--dot: var(--blue)">Blue #54 — body stripes</li>
+  <li style="--dot: var(--beige)">Dark beige #18 — snout</li>
+  <li style="--dot: var(--black)">Black #21 — embroidered mouth</li>
+  <li style="--dot: #C9BBA6">2.5&nbsp;mm crochet hook, 4&nbsp;mm safety eyes, stuffing, tapestry needle</li>
+</ul>
+</div>
+<p>Gauge isn’t critical, but crochet tightly enough that stuffing can’t peek through. This pattern is worked in <b>joined, turned rows</b>, not a continuous spiral: nearly every row starts “slst, 1ch”, which keeps each tube flat and gives a tidy edge for sewing.</p>
+<div class="note"><b>Reading a row:</b> the count in [brackets] is the total stitches at the end of the row. “(sc, inc)*3” means repeat “sc in the next stitch, then 2 sc in the one after” three times — starting from 6, you finish with 9.</div>
+
+<h2>Body</h2>
+<figure>
+  <img src="img/body.jpg" alt="Hands crocheting the striped body tube, showing the brown, white and blue stripe bands" width="1100" height="618" loading="lazy" decoding="async">
+  <figcaption>The striped tube mid-work — brown base, then the blue-and-white bands, at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=300" target="_blank" rel="noopener">5:00</a>.</figcaption>
+</figure>
+<p>With brown yarn — the longest piece, a tube that stripes its way from tail-end to chest. Stuff gradually as you go so it stays firm but squeezable.</p>
+<table>
+<thead><tr><th scope="col">Row</th><th scope="col">Instructions</th><th scope="col">Video</th></tr></thead>
+<tbody>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R1</span></label></td><td class="st">6sc in magic ring [6]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=36" target="_blank" rel="noopener">0:36</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R2</span></label></td><td class="st">slst, 1ch, (sc, inc)*3 [9]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=80" target="_blank" rel="noopener">1:20</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R3–R12</span></label></td><td class="st">slst, 1ch, 9sc [9] — 10 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=128" target="_blank" rel="noopener">2:08</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Change to blue yarn</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=178" target="_blank" rel="noopener">2:58</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R13–R14</span></label></td><td class="st">slst, 1ch, 9sc [9] — 2 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=194" target="_blank" rel="noopener">3:14</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Change to white yarn</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=262" target="_blank" rel="noopener">4:22</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R15–R16</span></label></td><td class="st">slst, 1ch, 9sc [9] — 2 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=276" target="_blank" rel="noopener">4:36</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Change to blue yarn</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=346" target="_blank" rel="noopener">5:46</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R17–R18</span></label></td><td class="st">slst, 1ch, 9sc [9] — 2 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=364" target="_blank" rel="noopener">6:04</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Change to white yarn</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=414" target="_blank" rel="noopener">6:54</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R19–R20</span></label></td><td class="st">slst, 1ch, 9sc [9] — 2 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=434" target="_blank" rel="noopener">7:14</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Keep alternating blue and white in 2-row stripes up to R40</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=470" target="_blank" rel="noopener">7:50</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Change to brown yarn</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=486" target="_blank" rel="noopener">8:06</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R41–R48</span></label></td><td class="st">slst, 1ch, 9sc [9] — 8 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=508" target="_blank" rel="noopener">8:28</a></td></tr>
+</tbody>
+</table>
+<div class="note"><b>To change colour:</b> work the last stitch until two loops remain on the hook, drop the old colour, pull the new one through both loops. Changes always land on a row boundary, so stripes stay crisp. Finish: slst, cut, leave a long tail.</div>
+
+<h2>Head</h2>
+<figure>
+  <img src="img/head.jpg" alt="The nearly finished head: brown skull with the last beige snout rows being crocheted" width="1100" height="618" loading="lazy" decoding="async">
+  <figcaption>The final beige rows of the snout — the head closes on 7 stitches, at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1100" target="_blank" rel="noopener">18:20</a>.</figcaption>
+</figure>
+<p>With brown yarn. A rounded ball that tapers into the beige snout and closes on a small 7-stitch opening — flat and neat for sewing.</p>
+<table>
+<thead><tr><th scope="col">Row</th><th scope="col">Instructions</th><th scope="col">Video</th></tr></thead>
+<tbody>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R1</span></label></td><td class="st">6sc in magic ring [6]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=608" target="_blank" rel="noopener">10:08</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R2</span></label></td><td class="st">slst, 1ch, 6inc [12]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=640" target="_blank" rel="noopener">10:40</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R3</span></label></td><td class="st">slst, 1ch, (sc, inc)*6 [18]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=694" target="_blank" rel="noopener">11:34</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R4–R6</span></label></td><td class="st">slst, 1ch, 18sc [18] — 3 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=730" target="_blank" rel="noopener">12:10</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R7</span></label></td><td class="st">slst, 1ch, 4dec, 10sc [14]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=770" target="_blank" rel="noopener">12:50</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R8</span></label></td><td class="st">slst, 1ch, 2dec, 10sc [12]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=840" target="_blank" rel="noopener">14:00</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Change to dark beige yarn</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=902" target="_blank" rel="noopener">15:02</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R9</span></label></td><td class="st">slst, 1ch, dec, 9sc [10]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=918" target="_blank" rel="noopener">15:18</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R10</span></label></td><td class="st">slst, 1ch, dec, 8sc [9]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=990" target="_blank" rel="noopener">16:30</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R11</span></label></td><td class="st">slst, 1ch, dec, 7sc [8]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1048" target="_blank" rel="noopener">17:28</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R12</span></label></td><td class="st">slst, 1ch, dec, 6sc [7]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1092" target="_blank" rel="noopener">18:12</a></td></tr>
+</tbody>
+</table>
+<p>Slst and cut at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1156" target="_blank" rel="noopener">19:16</a>. The beige rows are the snout — keep them centred when sewing, and stuff the head firmly before closing.</p>
+
+<h2>Legs <span class="make">make 4</span></h2>
+<p>With brown yarn. Four short, stubby tubes — two front, two back. Stuff lightly; the needle needs to pass through later.</p>
+<table>
+<thead><tr><th scope="col">Row</th><th scope="col">Instructions</th><th scope="col">Video</th></tr></thead>
+<tbody>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R1</span></label></td><td class="st">6sc in magic ring [6]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1224" target="_blank" rel="noopener">20:24</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R2</span></label></td><td class="st">slst, 1ch, 6sc [6]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1258" target="_blank" rel="noopener">20:58</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R3–R4</span></label></td><td class="st">slst, 1ch, 6sc [6] — 2 rows</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1322" target="_blank" rel="noopener">22:02</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Slst, cut, leave a long tail for sewing</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1370" target="_blank" rel="noopener">22:50</a></td></tr>
+</tbody>
+</table>
+
+<h2>Ears <span class="make">make 2</span></h2>
+<figure>
+  <img src="img/ears.jpg" alt="Crocheting an ear from brown yarn, with four finished legs and a beige snout piece visible in the background" width="1100" height="618" loading="lazy" decoding="async">
+  <figcaption>An ear in progress — the 3dc shell that rounds the tip, with the four legs waiting behind, at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1440" target="_blank" rel="noopener">24:00</a>.</figcaption>
+</figure>
+<p>With brown yarn. Long floppy ovals worked from a foundation chain, with a shell of three double crochets shaping the rounded tip. The ear curls slightly on its own — exactly the look you want.</p>
+<table>
+<thead><tr><th scope="col">Row</th><th scope="col">Instructions</th><th scope="col">Video</th></tr></thead>
+<tbody>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R1</span></label></td><td class="st">Chain 9; 2nd stitch from hook: 4sc, hdc, 2dc, (3dc in same stitch), 2dc, hdc, 4sc [17]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1392" target="_blank" rel="noopener">23:12</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Cut, leave a long tail for sewing</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1584" target="_blank" rel="noopener">26:24</a></td></tr>
+</tbody>
+</table>
+
+<h2>Nose</h2>
+<figure>
+  <img src="img/nose.jpg" alt="A small flat triangle of brown crochet stitches held in the fingertips — the nose" width="1100" height="618" loading="lazy" decoding="async">
+  <figcaption>The little triangle nose taking shape, at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1680" target="_blank" rel="noopener">28:00</a>.</figcaption>
+</figure>
+<p>With brown yarn. A tiny flat triangle in turning rows, tapering from 3 stitches to 1. “Skip 1st” means skip the first stitch — that’s what makes the taper.</p>
+<table>
+<thead><tr><th scope="col">Row</th><th scope="col">Instructions</th><th scope="col">Video</th></tr></thead>
+<tbody>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R1</span></label></td><td class="st">Chain 4; 2nd stitch from hook: 3sc, 1ch, turn [3]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1640" target="_blank" rel="noopener">27:20</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R2</span></label></td><td class="st">3sc, 1ch, turn [3]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1668" target="_blank" rel="noopener">27:48</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R3</span></label></td><td class="st">3sc, turn [3]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1696" target="_blank" rel="noopener">28:16</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R4</span></label></td><td class="st">skip 1st, 2sc, 1ch, turn [2]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1720" target="_blank" rel="noopener">28:40</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R5</span></label></td><td class="st">2sc, turn [2]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1748" target="_blank" rel="noopener">29:08</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R6</span></label></td><td class="st">skip 1st, sc, 1ch, turn [1]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1768" target="_blank" rel="noopener">29:28</a></td></tr>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R7–R8</span></label></td><td class="st">sc [1]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1784" target="_blank" rel="noopener">29:44</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Cut, leave a long tail for sewing</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1794" target="_blank" rel="noopener">29:54</a></td></tr>
+</tbody>
+</table>
+
+<h2>Tail</h2>
+<figure>
+  <img src="img/tail.jpg" alt="A tiny curved brown crochet piece held between finger and thumb — the tail" width="1100" height="618" loading="lazy" decoding="async">
+  <figcaption>The stubby tail, five stitches long, at <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1840" target="_blank" rel="noopener">30:40</a>.</figcaption>
+</figure>
+<p>With brown yarn. One tiny curve, worked from a foundation chain just like the ears — only shorter.</p>
+<table>
+<thead><tr><th scope="col">Row</th><th scope="col">Instructions</th><th scope="col">Video</th></tr></thead>
+<tbody>
+<tr><td class="rnd"><label class="row"><input type="checkbox" aria-label="mark row done"><span class="mark">R1</span></label></td><td class="st">Chain 6; 2nd stitch from hook: 2sc, hdc, 2dc [5]</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1826" target="_blank" rel="noopener">30:26</a></td></tr>
+<tr><td class="rnd"></td><td class="st">Cut, leave a long tail for sewing</td><td class="ts"><a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1870" target="_blank" rel="noopener">31:10</a></td></tr>
+</tbody>
+</table>
+
+<h2>Assembly</h2>
+<p>Sew with the long tails you saved, using small whip stitches through back loops so seams stay invisible. Head first — leg placement depends on it.</p>
+<ol class="assembly">
+<li>Sew the head to the body. Centre it on the brown tip and go around twice — this joint carries the most weight. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=1890" target="_blank" rel="noopener">31:30</a></li>
+<li>Sew the legs: front pair just behind the head, back pair near the tail, evenly spaced so Bruno stands level. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2052" target="_blank" rel="noopener">34:12</a></li>
+<li>Sew the nose onto the beige snout, point facing down and outward. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2250" target="_blank" rel="noopener">37:30</a></li>
+<li>Sew the ears to the top sides of the skull, flopping forward over the stripes. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2362" target="_blank" rel="noopener">39:22</a></li>
+<li>Sew the tail to the back tip, angled slightly upward. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2438" target="_blank" rel="noopener">40:38</a></li>
+<li>Glue in the 4&nbsp;mm eyes above the nose, symmetric about the snout. For a baby or pet, embroider them with black yarn instead. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2524" target="_blank" rel="noopener">42:04</a></li>
+<li>Dab fabric glue at the base of each ear so the curl holds. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2558" target="_blank" rel="noopener">42:38</a></li>
+<li>Embroider the mouth with black yarn: a short line from the nose tip splitting into a small smile. <a class="ts" href="https://youtu.be/4cWEyxh_Elw?t=2594" target="_blank" rel="noopener">43:14</a></li>
+</ol>
+<p>Weave in the ends, give Bruno a final shaping squish — done.</p>
+</main>
+</div>
+<script>
+const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
+const key = 'bruno-progress';
+const saved = JSON.parse(localStorage.getItem(key) || '[]');
+boxes.forEach((b, i) => {
+  b.checked = saved.includes(i);
+  b.closest('tr').classList.toggle('done', b.checked);
+  b.addEventListener('change', () => {
+    b.closest('tr').classList.toggle('done', b.checked);
+    const done = boxes.filter(x => x.checked).map(x => boxes.indexOf(x));
+    localStorage.setItem(key, JSON.stringify(done));
+    update();
+  });
+});
+function update() {
+  const n = boxes.filter(b => b.checked).length;
+  document.getElementById('count').textContent = n + ' of ' + boxes.length + ' rows done';
+  document.querySelector('.bar i').style.width = (100 * n / boxes.length) + '%';
+}
+update();
+</script>
+</body>
+</html>
