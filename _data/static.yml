@@ -1,0 +1,13 @@
+# One-off static pages hosted in this repo.
+# Add an entry here whenever you drop a new pure-static file (e.g. under lab/),
+# so it shows up on the /sitemap/ page.
+#
+# fields:
+#   name        — display text for the sitemap link
+#   url         — site-relative URL of the static file
+#   description — optional one-liner shown after the link
+
+pages:
+  - name: "Bruno the Dachshund — Crochet Pattern"
+    url: "/lab/bismarck/bruno_the_dachshund_pattern.html"
+    description: "Amigurumi crochet pattern"
