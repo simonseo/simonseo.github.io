@@ -6,7 +6,7 @@
 }
 
 #toc.toc__list {
-  border: 2px solid #eee;
+  border: 2px solid $toc-border-color;
   border-radius: 4px;
   line-height: 1.8rem;
   padding: 1rem 1.5rem;
@@ -28,10 +28,10 @@ ul.toc__sublist {
 }
 
 #toc a {
-  color: #BE185D;
+  color: $toc-link-color;
   text-decoration: underline;
 }
 
 #toc a:hover {
-  color: #9D174D;
+  color: $toc-link-hover-color;
 }

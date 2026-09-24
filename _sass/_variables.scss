@@ -1,9 +1,26 @@
-$brand-color:         #D25549;
+// "Drift" color-mood palette, sampled from the moodboard
+// (.context/attachments/8qKgqx/image.png)
+$vantage-point:       #94A4C2; // 38B-4 Vantage Point — muted blue
+$of-the-wind:         #C6D0D5; // 36A-2 Of the Wind — light blue-gray
+$catching-rays:       #EFE0B7; // 19B-2 Catching Rays — pale yellow
+$cappuccino-foam:     #EEE1CB; // 16A-1 Cappuccino Foam — cream
+$almond-biscotti:     #B9A080; // N-W21 Almond Biscotti — tan
+$family-reunion:      #B6B19C; // 25A-3 Family Reunion — sage
+
+// palette-derived accents
+$ink:                 darken($vantage-point, 55%); // deep navy for text/accents on brand surfaces
+
+$brand-color:         rgb(162, 175, 198);
 $highlight:           lighten($brand-color, 35%);
 $brand-text-color:    #FFFFFF;
 $text-color:          #0b0404;
-$muted-text-color:    #e3b7b79d;
+$muted-text-color:    rgba($ink, 0.55);
 $font-family:         "EB Garamond", Garamond, "Times New Roman", "MaruBuri", serif;
+
+// TOC
+$toc-border-color:    $of-the-wind;
+$toc-link-color:      darken($almond-biscotti, 25%);
+$toc-link-hover-color: $ink;
 
 $on-bigphone:         375px;
 $on-tablet:           768px;

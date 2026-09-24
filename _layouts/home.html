@@ -2,9 +2,9 @@
 layout: default
 ---
 
-{% if site.data.menu and site.paginate and site.paginate_path and paginator.page > 1 %}
+{% assign paginated = site.paginate_first_page | default: site.paginate %}{% if site.data.menu and paginated and paginator.page > 1 %}
   {% include menu.html %}
-{% elsif site.paginate and site.paginate_path and paginator.page > 1 %}
+{% elsif paginated and paginator.page > 1 %}
   {% include back-link.html %}
 {% else %}
   <header class="site-masthead">
@@ -35,7 +35,7 @@ layout: default
     </h1>
   </div>
 
-  {% if site.paginate and site.paginate_path %}
+  {% if paginated %}
     
     {% if paginator.total_pages > 1 %}
 

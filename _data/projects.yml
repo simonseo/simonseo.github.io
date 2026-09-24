@@ -1,0 +1,71 @@
+# GitHub Pages sites published from simonseo's repos.
+# Every project repo with Pages enabled is served under simonseo.github.io/<repo>/
+# (or a custom URL), since simonseo.github.io is a user site.
+#
+# fields:
+#   name        — display text for the sitemap link
+#   url         — published URL
+#   description — optional one-liner shown after the link
+#   group       — "project" for apps/tools/sites, "coursework" for class work
+
+pages:
+  - name: "phizmusic"
+    url: "https://simonseo.github.io/phizmusic/"
+    description: "Physics-first music theory wiki"
+    group: "project"
+
+  - name: "diep-w-port"
+    url: "https://simonseo.github.io/diep-w-port/"
+    description: "Estimate the weight of the DIEP flap in breast reconstruction"
+    group: "project"
+
+  - name: "hormuz"
+    url: "https://simonseo.github.io/hormuz/"
+    description: "Middle East conflict graph playground"
+    group: "project"
+
+  - name: "sunlight-minimizing-path"
+    url: "https://simonseo.github.io/sunlight-minimizing-path/"
+    group: "project"
+
+  - name: "my-nlp-journey"
+    url: "https://simonseo.github.io/my-nlp-journey/"
+    group: "project"
+
+  - name: "convex-optimization"
+    url: "https://simonseo.github.io/convex-optimization/"
+    description: "모두를 위한 컨백스 최적화 (redirects to convex-optimization-for-all.github.io)"
+    group: "project"
+
+  - name: "femme-lang-translator"
+    url: "https://simonseo.github.io/femme-lang-translator/"
+    group: "project"
+
+  - name: "old-simonseo.github.io"
+    url: "https://simonseo.github.io/old-simonseo.github.io/"
+    description: "Archived previous version of this blog"
+    group: "project"
+
+  - name: "computer_graphics"
+    url: "https://simonseo.github.io/computer_graphics/"
+    group: "coursework"
+
+  - name: "Front-End-WebDev"
+    url: "https://simonseo.github.io/Front-End-WebDev/"
+    group: "coursework"
+
+  - name: "Git-Practice"
+    url: "https://simonseo.github.io/Git-Practice/"
+    group: "coursework"
+
+  - name: "JeevesCoursePlanner"
+    url: "https://simonseo.github.io/JeevesCoursePlanner/"
+    group: "coursework"
+
+  - name: "cehack-sans-dump"
+    url: "https://simonseo.github.io/cehack-sans-dump/"
+    group: "coursework"
+
+  - name: "FDSgroupwork"
+    url: "https://simonseo.github.io/FDSgroupwork/"
+    group: "coursework"

@@ -53,15 +53,16 @@ plugins:
   - jekyll-toc
   
 
-paginate: 8
-paginate_path: "/:num/"
+# custom pagination — see _plugins/first_page_pagination.rb
+paginate_first_page: 4 # posts shown on the first page ("/")
+paginate_per_page: 8 # posts shown on each later page ("/2/", "/3/", ...)
 hide_credits: false
 hide_search: true
 
 # for posts in _projects folder
 collections:
   projects:
-    output: false # change this to true to build _projects folder
+    output: true # change this to true to build _projects folder
     permalink: /projects-:title/
 
 # for subdirectories in _posts folder
