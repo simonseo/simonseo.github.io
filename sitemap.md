@@ -69,6 +69,31 @@ Every public page on this site, in one place.
 - (no posts yet)
 {% endfor %}
 
+{% assign other_posts = nil %}
+{% assign known_prefixes = nil %}
+{% assign categorized = nil %}
+
+### Other
+
+{% for post in site.posts %}
+  {% assign post_path = post.path %}
+  {% unless post_path contains '_posts/musing/' or post_path contains '_posts/geometry based vision/' or post_path contains '_posts/physics based vision/' or post_path contains '_posts/image synthesis/' or post_path contains '_posts/computational photography/' or post_path contains '_posts/nswi/' %}
+- [{{ post.title | default: post.slug }}]({{ post.url | relative_url }})
+  {% endunless %}
+{% else %}
+- (no posts yet)
+{% endfor %}
+
+## Projects collection
+
+Pages built from the [`_projects`](https://github.com/simonseo/simonseo.github.io/tree/main/_projects) folder.
+
+{% for project in site.projects %}
+- [{{ project.title | default: project.slug }}]({{ project.url | relative_url }})
+{% else %}
+- (none)
+{% endfor %}
+
 ## One-off pages
 
 Pure-static pages living under [`lab/`](https://github.com/simonseo/simonseo.github.io/tree/main/lab).
