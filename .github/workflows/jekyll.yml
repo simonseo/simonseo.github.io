@@ -33,6 +33,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true # fetch LFS objects, otherwise pattern pages/images deploy as pointer stubs
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.171.0
         with:
